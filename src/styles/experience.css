@@ -1,0 +1,34 @@
+/* Motion and depth layered on top of styles.css. */
+
+body { background-image: radial-gradient(ellipse at 85% 0%, #e6efff, transparent 42%); background-repeat: no-repeat; }
+
+/* 3D scene */
+#idea-scene { position: absolute; inset: -6%; z-index: 2; }
+#idea-scene canvas { display: block; width: 100%; height: 100%; opacity: 0; transition: opacity .8s var(--ease-out); }
+.hero-art.scene-ready #idea-scene canvas { opacity: 1; }
+
+/* Scroll reveal */
+.reveal { transition: opacity .8s var(--ease-out), translate .8s var(--ease-out); }
+.reveal.is-pending { opacity: 0; translate: 0 24px; }
+
+/* Pause motion */
+.motion-paused *, .motion-paused *::before, .motion-paused *::after { animation-play-state: paused !important; }
+.motion-paused .reveal { transition: none; }
+
+.connect-panel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: .6;
+  background-image: radial-gradient(#ffffff40 1px, transparent 1px);
+  background-size: 20px 20px;
+  mask-image: radial-gradient(ellipse 60% 100% at 100% 0%, black, transparent 70%);
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal.is-pending { opacity: 1; translate: none; }
+  .values-grid article:hover, .service-card:hover, .button:hover { transform: none; }
+}
