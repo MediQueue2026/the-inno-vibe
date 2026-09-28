@@ -1,3 +1,4 @@
+import { useContext, useEffect } from 'react';
 import { Reveal } from '../hooks/useReveal.jsx';
 import { usePageTitle } from '../hooks/usePageTitle.js';
 import { projects } from '../projects.js';
@@ -5,6 +6,7 @@ import PageHero from '../components/PageHero.jsx';
 import lockup from '../assets/theinnovibe-brand-lockup.jpg';
 import Services from '../components/Services.jsx';
 import SystemsShowcase from '../components/SystemsShowcase.jsx';
+import { MotionContext } from '../motion.js';
 
 const statusDot = status => status === 'In development' ? 'development-dot' : 'analysis-dot';
 
@@ -48,6 +50,42 @@ function DomainMap() {
 
 export default function Domains() {
   usePageTitle('Domains & systems');
+  const motionPaused = useContext(MotionContext);
+
+  useEffect(() => {
+    const body = document.body;
+    const resetParallax = () => {
+      body.style.setProperty('--domains-parallax-x', '0px');
+      body.style.setProperty('--domains-parallax-y', '0px');
+      body.style.setProperty('--domains-tilt-x', '0deg');
+      body.style.setProperty('--domains-tilt-y', '0deg');
+    };
+
+    if (motionPaused) {
+      resetParallax();
+      return;
+    }
+
+    const handlePointerMove = event => {
+      if (event.pointerType === 'touch') return;
+
+      const x = event.clientX / window.innerWidth - 0.5;
+      const y = event.clientY / window.innerHeight - 0.5;
+      body.style.setProperty('--domains-parallax-x', `${-x * 24}px`);
+      body.style.setProperty('--domains-parallax-y', `${-y * 18}px`);
+      body.style.setProperty('--domains-tilt-x', `${-y * 1.2}deg`);
+      body.style.setProperty('--domains-tilt-y', `${x * 1.2}deg`);
+    };
+
+    window.addEventListener('pointermove', handlePointerMove, { passive: true });
+    window.addEventListener('blur', resetParallax);
+    return () => {
+      window.removeEventListener('pointermove', handlePointerMove);
+      window.removeEventListener('blur', resetParallax);
+      resetParallax();
+    };
+  }, [motionPaused]);
+
   return (
     <>
       <PageHero

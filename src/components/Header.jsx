@@ -37,7 +37,7 @@ export default function Header() {
   }, []);
 
   return (
-    <header className={scrolled || open ? 'site-header is-scrolled' : 'site-header'}>
+    <header className={`site-header${scrolled || open ? ' is-scrolled' : ''}${scrolled ? ' is-compact' : ''}`}>
       <div className="header-inner">
         <Brand aria-label="TheInnoVibe home" onClick={close} />
         <button

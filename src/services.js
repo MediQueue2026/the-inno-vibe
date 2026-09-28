@@ -2,16 +2,21 @@ export const services = [
   {
     id: 'software',
     title: 'Custom software',
-    text: 'Software built around the way you work, designed with the people who use it and engineered to last.'
+    text: 'Purpose-built platforms shaped around your workflows and engineered to evolve with your business.'
   },
   {
     id: 'web',
-    title: 'Web development',
-    text: 'Fast, responsive websites and web applications that make an impact on every screen.'
+    title: 'Web & digital products',
+    text: 'Thoughtful, responsive digital experiences that bring useful ideas to life on every screen.'
   },
   {
-    id: 'digital',
-    title: 'Digital transformation',
-    text: 'Moving everyday processes into simple, reliable digital systems that save time and reduce friction.'
+    id: 'ai',
+    title: 'AI & intelligent systems',
+    text: 'Practical intelligence that helps people make better decisions and get more from their data.'
+  },
+  {
+    id: 'systems',
+    title: 'Business systems',
+    text: 'Connected tools and reliable workflows that reduce friction across day-to-day operations.'
   }
 ];

@@ -153,14 +153,16 @@ export default function Team() {
         A small team that brings product design and software engineering together to build technology with purpose.
       </PageHero>
 
-      <section className="page-section section-wrap" id="join">
-        <Reveal className="info-card join-card">
-          <div>
-            <h3>Want to build with us?</h3>
-            <p>We’re always happy to hear from people who care about purposeful technology.</p>
-          </div>
-          <a className="button button-primary" href="mailto:theinnovibe@gmail.com">Get in touch <span aria-hidden="true">↗</span></a>
-        </Reveal>
+      <section className="page-section team-join-section" id="join">
+        <div className="section-wrap">
+          <Reveal className="info-card join-card">
+            <div>
+              <h3>Want to build with us?</h3>
+              <p>We’re always happy to hear from people who care about purposeful technology.</p>
+            </div>
+            <a className="button button-primary" href="mailto:theinnovibe@gmail.com">Get in touch <span aria-hidden="true">↗</span></a>
+          </Reveal>
+        </div>
       </section>
     </>
   );
