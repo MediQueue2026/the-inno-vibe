@@ -91,7 +91,6 @@
 .page-hero--domains .page-hero-copy > :nth-child(4) { animation-delay: .26s; }
 .page-hero--domains .page-hero-copy > :nth-child(5) { animation-delay: .36s; }
 .page-hero--domains .page-hero-copy > :nth-child(6) { animation-delay: .46s; }
-
 /* A fixed 560 × 380 coordinate space shared with the SVG in Domains.jsx */
 .domain-map { position: relative; width: 100%; max-width: 580px; margin-left: auto; aspect-ratio: 560 / 380; }
 .domain-map-bulb { position: absolute; left: 0; top: calc(90 / 380 * 100%); width: calc(200 / 560 * 100%); aspect-ratio: 1; animation: zoom-in 1s var(--ease-out) .2s both; }
@@ -115,7 +114,7 @@
 
 
 /* ---------- Our team: centred, a filterable team directory, a skills marquee ---------- */
-.page-hero--team { padding-bottom: 0; background: radial-gradient(ellipse at 50% 0%, #e6efff, transparent 60%), #fbfdff; }
+.page-hero--team { padding-bottom: 0; background: transparent; }
 /* Background: fine dot grid, soft glows, and a quiet network of connected people either side */
 .page-hero--team .page-hero-bg::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(#1d5ce61a 1.2px, transparent 1.2px); background-size: 26px 26px; mask-image: linear-gradient(180deg, black, transparent 55%); }
 .team-decor { position: absolute; inset: 0; overflow: hidden; }
@@ -222,6 +221,7 @@ span.member-avatar { background: linear-gradient(#ffffff, #ffffff) padding-box, 
 .motion-paused .line-flow { display: none; }
 
 @media (prefers-reduced-motion: reduce) {
+  .domain-map-cards li { animation: none; }
   .line-base { stroke-dashoffset: 0; }
   .line-flow { display: none; }
   .team-network line { stroke-dashoffset: 0; }

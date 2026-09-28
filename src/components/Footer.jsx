@@ -9,6 +9,7 @@ export default function Footer() {
       <div className="section-wrap footer-grid">
         <div className="footer-brand">
           <Brand size={40} />
+          <span className="footer-tagline">THINK <i>•</i> BUILD <i>•</i> VIBE</span>
           <p>Technology with purpose. Built with a different vibe.</p>
           <div className="footer-social">
             <a href="https://www.instagram.com/the_innovibe/" target="_blank" rel="noopener" aria-label="TheInnoVibe on Instagram">

@@ -19,6 +19,7 @@ function useScrollOnNavigate() {
 
 export default function Layout() {
   const [paused, setPaused] = useState(reducedMotion.matches);
+  const { pathname } = useLocation();
   useScrollOnNavigate();
 
   useEffect(() => {
@@ -30,6 +31,16 @@ export default function Layout() {
   useEffect(() => {
     document.body.classList.toggle('motion-paused', paused);
   }, [paused]);
+
+  useEffect(() => {
+    document.body.classList.toggle('cosmic-site', pathname === '/');
+    document.body.classList.toggle('about-cosmic-site', pathname === '/about');
+    document.body.classList.toggle('team-page', pathname === '/team');
+    document.body.classList.toggle('domains-page', pathname === '/domains');
+    return () => {
+      document.body.classList.remove('cosmic-site', 'about-cosmic-site', 'team-page', 'domains-page');
+    };
+  }, [pathname]);
 
   return (
     <MotionContext.Provider value={paused}>

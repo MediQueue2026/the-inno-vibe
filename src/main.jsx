@@ -5,6 +5,7 @@ import './styles/styles.css';
 import './styles/experience.css';
 import './styles/pages.css';
 import './styles/page-heroes.css';
+import './styles/cosmic-home.css';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
