@@ -116,6 +116,24 @@ body.about-cosmic-site .page-hero--about {
   border-bottom-color: #83baff2b;
 }
 
+body.about-cosmic-site .page-hero--about .page-hero-inner {
+  padding: clamp(20px, 3vw, 40px);
+  border: 1px solid #83baff38;
+  border-radius: 24px;
+  background: #071225a8;
+  box-shadow: 0 20px 60px #0005, inset 0 1px #ffffff12;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  animation: glass-panel-in .9s var(--ease-out) both;
+}
+
+@keyframes glass-panel-in {
+  from { opacity: 0; transform: translateY(18px) scale(.985); }
+  to { opacity: 1; transform: none; }
+}
+
+body.motion-paused.about-cosmic-site .page-hero--about .page-hero-inner { animation: none; }
+
 body.about-cosmic-site .page-hero--about .page-hero-bg::before {
   top: 0;
   left: 0;
@@ -1418,13 +1436,6 @@ body.cosmic-site .connect p {
   margin-top: 15px;
   color: #b5c4df;
   font-size: 16px;
-}
-
-body.cosmic-site .connect-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 11px;
-  margin-top: 24px;
 }
 
 body.cosmic-site .connect-panel .button-primary {

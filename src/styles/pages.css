@@ -130,7 +130,7 @@ body.domains-page::before {
   inset: -36px;
   z-index: 0;
   pointer-events: none;
-  background-image: linear-gradient(#02081755, #02081788), url('/domains-page-background.png');
+  background-image: url('/domains-page-background.png');
   background-position: center;
   background-size: cover;
   transform: perspective(1200px)
@@ -146,7 +146,7 @@ body.domains-page > #root {
   z-index: 1;
 }
 body.domains-page .page-hero--domains {
-  background: linear-gradient(180deg, #02081775, #02081745 65%, #02081780);
+  background: transparent;
 }
 body.domains-page .services,
 body.domains-page #domains,
