@@ -53,7 +53,9 @@ const framesData = [
 ];
 
 const FRAME_COUNT = 240;
-const MAX_CACHED_FRAMES = 36;
+const MAX_ACTIVE_LOADS = 4;
+const MAX_CACHED_FRAMES = 24;
+const FRAME_LOOKAHEAD = 12;
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
 export default function CinematicStory() {
@@ -69,12 +71,15 @@ export default function CinematicStory() {
     if (!section || !canvas || !context) return undefined;
 
     const images = new Array(FRAME_COUNT);
-    let targetProgress = 0;
     let targetFrame = 0;
     let drawnFrame = -1;
     let renderRequest = 0;
     let disposed = false;
     let lastStoryIndex = -1;
+    let scrollDirection = 1;
+    let pendingFrames = [];
+    const activeLoads = new Map();
+    const failedFrames = new Set();
 
     const paint = () => {
       renderRequest = 0;
@@ -83,8 +88,13 @@ export default function CinematicStory() {
       const rect = section.getBoundingClientRect();
       const stickyTop = document.querySelector('.site-header')?.offsetHeight ?? 0;
       const travel = Math.max(section.offsetHeight - window.innerHeight + stickyTop, 1);
-      targetProgress = clamp((stickyTop - rect.top) / travel, 0, 1);
-      targetFrame = Math.round(targetProgress * (FRAME_COUNT - 1));
+      const targetProgress = clamp((stickyTop - rect.top) / travel, 0, 1);
+      const nextTargetFrame = Math.round(targetProgress * (FRAME_COUNT - 1));
+      if (nextTargetFrame !== targetFrame) {
+        scrollDirection = nextTargetFrame > targetFrame ? 1 : -1;
+        targetFrame = nextTargetFrame;
+        prioritizeFrames(targetFrame);
+      }
       if (frameIndicatorRef.current) {
         frameIndicatorRef.current.textContent = String(targetFrame + 1).padStart(4, '0');
       }
@@ -94,25 +104,22 @@ export default function CinematicStory() {
         setActiveIndex(storyIndex);
       }
 
-      const firstFrame = Math.max(0, targetFrame - 4);
-      const lastFrame = Math.min(FRAME_COUNT - 1, targetFrame + 12);
-      for (let index = firstFrame; index <= lastFrame; index += 1) loadFrame(index);
-      pruneFrames();
-
       let imageIndex = targetFrame;
       let image = images[targetFrame];
       if (!image?.complete || !image.naturalWidth) {
-        for (let distance = 1; distance < FRAME_COUNT; distance++) {
-          const before = images[targetFrame - distance];
-          const after = images[targetFrame + distance];
-          if (before?.complete && before.naturalWidth) {
-            image = before;
-            imageIndex = targetFrame - distance;
+        for (let distance = 1; distance <= FRAME_LOOKAHEAD; distance += 1) {
+          const preferredIndex = targetFrame + distance * scrollDirection;
+          const alternateIndex = targetFrame - distance * scrollDirection;
+          const preferred = images[preferredIndex];
+          const alternate = images[alternateIndex];
+          if (preferred?.complete && preferred.naturalWidth) {
+            image = preferred;
+            imageIndex = preferredIndex;
             break;
           }
-          if (after?.complete && after.naturalWidth) {
-            image = after;
-            imageIndex = targetFrame + distance;
+          if (alternate?.complete && alternate.naturalWidth) {
+            image = alternate;
+            imageIndex = alternateIndex;
             break;
           }
         }
@@ -134,24 +141,74 @@ export default function CinematicStory() {
       if (!renderRequest) renderRequest = requestAnimationFrame(paint);
     };
 
-    function loadFrame(index) {
-      if (index < 0 || index >= FRAME_COUNT || images[index] || disposed) return;
-      const image = new Image();
-      images[index] = image;
-      image.onload = () => {
-        pruneFrames();
-        schedulePaint();
-      };
-      image.onerror = () => {
-        console.error(`Unable to load cinematic frame ${String(index + 1).padStart(4, '0')}.`);
-      };
-      image.src = `/images/frame-${String(index + 1).padStart(4, '0')}.jpg`;
+    function prioritizeFrames(centerFrame) {
+      const firstFrame = Math.max(0, centerFrame - 4);
+      const lastFrame = Math.min(FRAME_COUNT - 1, centerFrame + FRAME_LOOKAHEAD);
+      const desiredFrames = new Set();
+
+      for (let index = firstFrame; index <= lastFrame; index += 1) {
+        desiredFrames.add(index);
+      }
+
+      activeLoads.forEach((image, index) => {
+        if (desiredFrames.has(index) || Math.abs(index - centerFrame) <= FRAME_LOOKAHEAD + 4) return;
+        image.onload = null;
+        image.onerror = null;
+        image.removeAttribute('src');
+        images[index] = undefined;
+        activeLoads.delete(index);
+      });
+
+      pendingFrames = Array.from(desiredFrames)
+        .filter(index => !images[index] && !failedFrames.has(index))
+        .sort((first, second) => {
+          const distance = Math.abs(first - centerFrame) - Math.abs(second - centerFrame);
+          if (distance) return distance;
+          const firstIsAhead = Math.sign(first - centerFrame) === scrollDirection;
+          const secondIsAhead = Math.sign(second - centerFrame) === scrollDirection;
+          return Number(secondIsAhead) - Number(firstIsAhead);
+        });
+
+      activeLoads.forEach((image, index) => {
+        image.fetchPriority = index === centerFrame ? 'high' : 'auto';
+      });
+      pumpFrameQueue();
+    }
+
+    function pumpFrameQueue() {
+      while (!disposed && activeLoads.size < MAX_ACTIVE_LOADS && pendingFrames.length) {
+        const index = pendingFrames.shift();
+        if (images[index] || failedFrames.has(index)) continue;
+
+        const image = new Image();
+        image.decoding = 'async';
+        image.fetchPriority = index === targetFrame ? 'high' : 'auto';
+        images[index] = image;
+        activeLoads.set(index, image);
+
+        image.onload = () => {
+          if (activeLoads.get(index) !== image) return;
+          activeLoads.delete(index);
+          pruneFrames();
+          schedulePaint();
+          pumpFrameQueue();
+        };
+        image.onerror = () => {
+          if (activeLoads.get(index) !== image) return;
+          activeLoads.delete(index);
+          images[index] = undefined;
+          failedFrames.add(index);
+          console.error(`Unable to load cinematic frame ${String(index + 1).padStart(4, '0')}.`);
+          pumpFrameQueue();
+        };
+        image.src = `/images/frame-${String(index + 1).padStart(4, '0')}.jpg`;
+      }
     }
 
     function pruneFrames() {
       const cachedIndices = [];
       images.forEach((image, index) => {
-        if (image) cachedIndices.push(index);
+        if (image?.complete && image.naturalWidth) cachedIndices.push(index);
       });
       if (cachedIndices.length <= MAX_CACHED_FRAMES) return;
 
@@ -161,8 +218,6 @@ export default function CinematicStory() {
       cachedIndices.forEach(index => {
         if (keep.has(index)) return;
         const image = images[index];
-        image.onload = null;
-        image.onerror = null;
         image.removeAttribute('src');
         images[index] = undefined;
       });
@@ -171,14 +226,18 @@ export default function CinematicStory() {
     const resizeCanvas = () => {
       const bounds = canvas.getBoundingClientRect();
       const pixelRatio = Math.min(window.devicePixelRatio || 1, matchMedia('(max-width: 640px)').matches ? 1 : 1.5);
-      canvas.width = Math.max(1, Math.round(bounds.width * pixelRatio));
-      canvas.height = Math.max(1, Math.round(bounds.height * pixelRatio));
+      const width = Math.max(1, Math.round(bounds.width * pixelRatio));
+      const height = Math.max(1, Math.round(bounds.height * pixelRatio));
+      if (canvas.width === width && canvas.height === height) return;
+      canvas.width = width;
+      canvas.height = height;
       drawnFrame = -1;
       schedulePaint();
     };
 
-    loadFrame(0);
-    for (let index = 1; index < 12; index += 1) loadFrame(index);
+    context.imageSmoothingEnabled = true;
+    context.imageSmoothingQuality = 'high';
+    prioritizeFrames(0);
     const resizeObserver = new ResizeObserver(resizeCanvas);
     resizeObserver.observe(canvas);
     resizeCanvas();
@@ -191,6 +250,13 @@ export default function CinematicStory() {
       resizeObserver.disconnect();
       window.removeEventListener('scroll', schedulePaint);
       window.removeEventListener('resize', resizeCanvas);
+      pendingFrames = [];
+      activeLoads.forEach(image => {
+        image.onload = null;
+        image.onerror = null;
+        image.removeAttribute('src');
+      });
+      activeLoads.clear();
       images.forEach(image => {
         if (image) {
           image.onload = null;

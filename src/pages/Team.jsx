@@ -7,7 +7,6 @@ import PageHero from '../components/PageHero.jsx';
 
 const initials = name => name.split(/\s+/).map(word => word[0]).join('').slice(0, 2).toUpperCase();
 
-const skills = ['Product design', 'Software engineering', 'Web development', 'Digital transformation'];
 
 // Groups a member by their title, so filters stay right when roles change in team.js.
 const disciplineOf = role => /qa|quality|test/i.test(role) ? 'Quality'
@@ -38,13 +37,13 @@ function RoleIcon({ role, size = 16 }) {
 function MemberCard({ member, index }) {
   const discipline = disciplineOf(member.role).toLowerCase();
   return (
-    <article className={`member-card is-${discipline}`} style={{ '--i': index }}>
-      <div className="member-cover" aria-hidden="true">
-        <span className="member-cover-icon"><RoleIcon role={member.role} size={96} /></span>
+    <article className={`member-card is-${discipline}${member.photo ? ' has-photo' : ''}`} style={{ '--i': index }}>
+      <div className={`member-cover${member.photo ? ' has-photo' : ''}`}>
+        {member.photo
+          ? <img className="member-photo" src={member.photo} alt={member.name} />
+          : <span className="member-cover-icon" aria-hidden="true"><RoleIcon role={member.role} size={96} /></span>}
       </div>
-      {member.photo
-        ? <img className="member-avatar" src={member.photo} alt="" width="84" height="84" />
-        : <span className="member-avatar" aria-hidden="true">{initials(member.name)}</span>}
+      {!member.photo && <span className="member-avatar" aria-hidden="true">{initials(member.name)}</span>}
       <div className="member-body">
         <h3>{member.name}</h3>
         <span className="member-role"><RoleIcon role={member.role} /> {member.role}</span>
@@ -121,18 +120,6 @@ function TeamDecor() {
   );
 }
 
-function SkillsMarquee() {
-  const items = [...skills, ...skills, ...skills, ...skills];
-  return (
-    <div className="skills-marquee" aria-label="What the team brings">
-      <ul className="sr-only">{skills.map(skill => <li key={skill}>{skill}</li>)}</ul>
-      <div className="marquee-track" aria-hidden="true">
-        {items.map((skill, index) => <span key={index}>{skill}<i>✦</i></span>)}
-      </div>
-    </div>
-  );
-}
-
 export default function Team() {
   usePageTitle('Our team');
   return (
@@ -148,7 +135,6 @@ export default function Team() {
         </>}
         visual={<TeamDirectory />}
         decor={<TeamDecor />}
-        footer={<SkillsMarquee />}
       >
         A small team that brings product design and software engineering together to build technology with purpose.
       </PageHero>

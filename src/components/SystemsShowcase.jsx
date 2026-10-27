@@ -13,7 +13,9 @@ const stageIndex = status => /requirement|analysis/i.test(status) ? 0
   : /launch|live|released/i.test(status) ? 4
   : 0;
 
-const statusDot = status => status === 'In development' ? 'development-dot' : 'analysis-dot';
+const statusDot = status => status === 'In development' ? 'development-dot'
+  : /test|qa/i.test(status) ? 'testing-dot'
+  : 'analysis-dot';
 
 // Tabbed showcase of the products. Links to #<project id> select and reveal that product.
 export default function SystemsShowcase() {

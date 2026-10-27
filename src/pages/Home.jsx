@@ -14,7 +14,7 @@ export default function Home() {
     <div className="cosmic-home">
       <Hero onToggleMotion={toggleMotion} />
       <CinematicStory />
-      <Services number="01" band />
+      <Services number="01" band showModels />
       <SelectedWork />
       <Approach number="03" />
       <WhyTheInnoVibe />

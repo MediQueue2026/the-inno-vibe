@@ -402,8 +402,9 @@ h2 { margin: 0; font-size: var(--fs-h2); font-weight: 750; line-height: 1.2; let
 .concept-label { position: absolute; bottom: 8px; right: 14px; font-size: 8px; font-weight: 600; letter-spacing: .14em; color: #6f7f9eaa; }
 .category { font-size: var(--fs-xs); font-weight: 700; letter-spacing: .14em; color: var(--p-ink, var(--accent)); }
 .project-tag { display: inline-flex; align-items: center; gap: 8px; padding: 5px 12px; font-size: 13px; font-weight: 600; color: var(--text-2); background: #ffffff; border: 1px solid var(--border); border-radius: 999px; }
-.development-dot, .analysis-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--amber); }
+.development-dot, .analysis-dot, .testing-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--amber); }
 .analysis-dot { background: var(--accent); }
+.testing-dot { background: #16a36a; }
 
 .queue-preview, .home-preview, .lab-preview { max-width: 370px; margin: 22px auto 0; background: #ffffff; border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 16px 36px #1d3a7a1f; transform: rotate(-1deg); transition: transform .5s var(--ease-out); }
 .home-preview { margin-top: 18px; transform: rotate(1deg); }
