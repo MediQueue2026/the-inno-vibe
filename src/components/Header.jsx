@@ -22,9 +22,9 @@ export default function Header() {
 
     if (!open) return;
 
-    // Lock scrolling completely when sidebar/menu is open
+    // Lock background scrolling while the menu is open (menu itself stays interactive)
     const preventScroll = event => {
-      event.preventDefault();
+      if (!event.target.closest('#navigation')) event.preventDefault();
     };
 
     document.addEventListener('touchmove', preventScroll, { passive: false });
@@ -53,7 +53,7 @@ export default function Header() {
   }, []);
 
   return (
-    <header className={`site-header${scrolled || open ? ' is-scrolled' : ''}${scrolled ? ' is-compact' : ''}`}>
+    <header className={`site-header${scrolled || open ? ' is-scrolled' : ''}${scrolled ? ' is-compact' : ''}${open ? ' is-menu-open' : ''}`}>
       <div className="header-inner">
         <Brand aria-label="TheInnoVibe home" onClick={close} />
         
@@ -70,20 +70,20 @@ export default function Header() {
 
         {/* Static Mobile Navigation Menu */}
         <nav id="navigation" className={`site-nav${open ? ' is-open' : ''}`} aria-label="Main navigation">
-          <div className="sidebar-nav-links">
+          <div className="nav-pill-group">
             {pages.map(page => (
-              <NavLink key={page.to} to={page.to} end onClick={close}>
+              <NavLink key={page.to} to={page.to} end onClick={close} className="nav-item">
                 <span>{page.label}</span>
-                <span className="sidebar-nav-arrow" aria-hidden="true">&rarr;</span>
+                <span className="mobile-nav-arrow" aria-hidden="true">&rarr;</span>
               </NavLink>
             ))}
           </div>
 
-          <div className="sidebar-drawer-foot">
+          <div className="nav-actions">
             <Link className="button button-primary nav-cta" to="/#connect" onClick={close}>
               Let’s connect <span aria-hidden="true">&rarr;</span>
             </Link>
-            <div className="sidebar-motto">
+            <div className="mobile-drawer-motto">
               <span>THINK &bull; BUILD &bull; VIBE</span>
             </div>
           </div>
