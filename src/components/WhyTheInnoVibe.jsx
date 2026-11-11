@@ -5,25 +5,25 @@ const principles = [
     number: '01',
     tag: 'DISCOVERY',
     title: 'Think first',
-    text: 'Understand the real problem and the people behind it before writing a single line of code.'
+    text: 'We understand the root problem and real user needs before writing any code.'
   },
   {
     number: '02',
     tag: 'INTENTION',
     title: 'Build with purpose',
-    text: 'Every feature and decision should solve a genuine need and remove everyday friction.'
+    text: 'Every feature must earn its place by removing genuine everyday friction.'
   },
   {
     number: '03',
     tag: 'EXPERIENCE',
     title: 'Design for people',
-    text: 'Software should feel calm, clear and intuitive from the very first interaction.'
+    text: 'Intuitive, calm interfaces that anyone can pick up and use immediately.'
   },
   {
     number: '04',
     tag: 'LONGEVITY',
     title: "Build for what's next",
-    text: 'Architect reliable, maintainable systems that scale and evolve with the business.'
+    text: 'Resilient architectures engineered to scale smoothly as your needs grow.'
   }
 ];
 
@@ -34,7 +34,7 @@ export default function WhyTheInnoVibe() {
         <span className="eyebrow"><span className="section-number">04 /</span> WHY THEINNOVIBE</span>
         <Reveal>
           <h2>Not just another<br />{' '}software company<span className="cyan">.</span></h2>
-          <p>We bring clear thinking, thoughtful design and purposeful engineering to the work that matters.</p>
+          <p>Clear thinking, clean design, and purposeful engineering for products that last.</p>
           <div className="why-highlights" aria-label="Core strengths">
             <span>Human-centered</span>
             <span>Engineered to last</span>

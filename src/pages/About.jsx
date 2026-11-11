@@ -10,27 +10,27 @@ import { projects } from '../projects.js';
 const values = [
   {
     number: '01',
-    title: 'Empathy Before Architecture',
-    subtitle: 'UNDERSTAND FIRST',
-    text: 'We immerse ourselves in the actual problem, user workflows, and daily friction before writing a line of code or finalizing system models.'
+    title: 'Empathy First',
+    subtitle: 'UNDERSTAND BEFORE CODING',
+    text: 'We study real workflows and user friction before writing a single line of code.'
   },
   {
     number: '02',
     title: 'Lean & Purposeful',
     subtitle: 'NO ARTIFICIAL BLOAT',
-    text: 'Every feature, screen, and endpoint must earn its place by solving a tangible requirement and simplifying real human tasks.'
+    text: 'Every screen and feature must earn its place by solving a genuine human need.'
   },
   {
     number: '03',
-    title: 'Resilient Craftsmanship',
-    subtitle: 'ENGINEERED TO LAST',
-    text: 'We build with clean conventions, rigorous testing, and robust architectures that stay reliable as usage grows and demands evolve.'
+    title: 'Engineered to Last',
+    subtitle: 'HIGH RELIABILITY',
+    text: 'Clean architecture, thorough testing, and systems built to scale seamlessly.'
   },
   {
     number: '04',
-    title: 'Iterative Partnership',
-    subtitle: 'TRANSPARENT EVOLUTION',
-    text: 'Great products aren’t built in isolation. We share progress early, test alongside real users, and continuously measure what works.'
+    title: 'Iterative Growth',
+    subtitle: 'SHIP & REFINE',
+    text: 'We test early with real users, iterate fast, and continuously measure impact.'
   }
 ];
 
@@ -89,7 +89,7 @@ export default function About() {
         ]}
         visual={<AboutOrbit />}
       >
-        TheInnoVibe turns real-world challenges into purposeful software. Built around people. Driven by innovation.
+        We turn complex challenges into purposeful digital systems built around people.
       </PageHero>
 
       <section className="about section-wrap" id="who-we-are">
@@ -108,21 +108,21 @@ export default function About() {
               <span className="pillar-dot" aria-hidden="true"></span>
               <div>
                 <strong>Product Thinking</strong>
-                <small>Grounding every system in genuine human workflows</small>
+                <small>Grounding systems in real human workflows</small>
               </div>
             </div>
             <div className="about-pillar-item">
               <span className="pillar-dot" aria-hidden="true"></span>
               <div>
                 <strong>Modern Engineering</strong>
-                <small>Reliable, scalable code designed to evolve with need</small>
+                <small>Scalable, maintainable code built to endure</small>
               </div>
             </div>
             <div className="about-pillar-item">
               <span className="pillar-dot" aria-hidden="true"></span>
               <div>
                 <strong>Human-Centered Design</strong>
-                <small>Clear, intuitive interactions that reduce daily friction</small>
+                <small>Intuitive interfaces that remove daily friction</small>
               </div>
             </div>
           </div>
@@ -131,10 +131,10 @@ export default function About() {
         <Reveal className="about-story-card">
           <div className="about-card-badge">THEINNOVIBE AT A GLANCE</div>
           <p className="about-lead">
-            We’re TheInnoVibe — a technology startup building digital products that simplify complex, everyday workflows.
+            We’re TheInnoVibe — a technology studio creating software that simplifies everyday life.
           </p>
           <p className="about-body-text">
-            Alongside custom software, web development and digital transformation work, our own products span healthcare, household management and education. We start by understanding the people and processes behind each challenge, then bring product design and software engineering together to develop practical solutions.
+            We combine human-centered design and resilient engineering across healthcare, home management, and education to build systems that work effortlessly.
           </p>
           <div className="about-domains-strip">
             <span className="about-domains-label">Focus spaces:</span>
@@ -162,7 +162,7 @@ export default function About() {
               <span className="info-card-badge">01 / PURPOSE</span>
             </div>
             <h3>Our mission</h3>
-            <p>To turn real-world challenges into purposeful software that is built around the people who use it every day.</p>
+            <p>To turn real-world challenges into purposeful software engineered for the people who use it every day.</p>
           </Reveal>
           <Reveal as="article" className="info-card vision-card">
             <div className="info-card-top">
@@ -170,7 +170,7 @@ export default function About() {
               <span className="info-card-badge">02 / DIRECTION</span>
             </div>
             <h3>Our vision</h3>
-            <p>Everyday systems that feel calmer, clearer and simpler, starting with healthcare, the home and education.</p>
+            <p>Everyday digital systems that feel calmer, clearer, and genuinely friction-free.</p>
           </Reveal>
         </div>
       </section>

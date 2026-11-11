@@ -8,10 +8,10 @@ import kuahanAnuththara from './assets/team/kuahan-anuththara.jpeg';
 
 // `linkedin`: a profile URL, or null to hide the link.
 export const team = [
-  { name: 'Akind Perera', role: 'Software Engineer', bio: 'Designs, codes and tests new features, turning product requirements into reliable software.', photo: akindPerera, linkedin: null },
-  { name: 'Nihara Fernando', role: 'QA Engineer', bio: 'Plans and runs manual and automated tests to catch bugs before every release.', photo: niharaFernando, linkedin: null },
-  { name: 'Nethmin Gomes', role: 'Database Engineer', bio: 'Designs database structures, writes efficient queries and keeps our data secure and backed up.', photo: nethminGomes, linkedin: null },
-  { name: 'Nithika Nimlaka', role: 'Full Stack Engineer', bio: 'Works across the whole stack, from responsive front-end screens to back-end services and databases.', photo: nithikaNimlaka, linkedin: null },
-  { name: 'Geenadi Dahanayake', role: 'Full Stack Engineer', bio: 'Builds complete features end to end, from user interfaces to APIs and server-side logic.', photo: geenadiDahanayake, linkedin: null },
-  { name: 'Kuahan Anuththara', role: 'Project Manager', bio: 'Plans timelines, coordinates the team and keeps every project on track from requirements to release.', photo: kuahanAnuththara, linkedin: null }
+  { name: 'Akind Perera', role: 'Software Engineer', bio: 'Transforms complex requirements into clean, scalable software features.', photo: akindPerera, linkedin: null },
+  { name: 'Nihara Fernando', role: 'QA Engineer', bio: 'Guarantees product reliability through automated testing and rigorous QA.', photo: niharaFernando, linkedin: null },
+  { name: 'Nethmin Gomes', role: 'Database Engineer', bio: 'Architects robust database schemas, query performance, and data security.', photo: nethminGomes, linkedin: null },
+  { name: 'Nithika Nimlaka', role: 'Full Stack Engineer', bio: 'Builds responsive user interfaces and resilient backend microservices.', photo: nithikaNimlaka, linkedin: null },
+  { name: 'Geenadi Dahanayake', role: 'Full Stack Engineer', bio: 'Engineers end-to-end full stack web applications and secure APIs.', photo: geenadiDahanayake, linkedin: null },
+  { name: 'Kuahan Anuththara', role: 'Project Manager', bio: 'Coordinates agile sprints, deliverables, and seamless project execution.', photo: kuahanAnuththara, linkedin: null }
 ];

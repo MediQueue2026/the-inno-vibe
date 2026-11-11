@@ -3,9 +3,9 @@ import { Reveal } from '../hooks/useReveal.jsx';
 const EMAIL = 'theinnovibe@gmail.com';
 
 const steps = [
-  { title: 'Share the idea', text: 'Tell us the problem, the people it affects and where you want to go.' },
-  { title: 'Shape the plan', text: 'We scope it together and map the clearest path from concept to launch.' },
-  { title: 'Build it for real', text: 'We design, build and ship — then keep improving it with you.' }
+  { title: 'Share the vision', text: 'Tell us the problem you want to solve and who it is for.' },
+  { title: 'Scope the roadmap', text: 'We map the clearest, most effective path from concept to release.' },
+  { title: 'Build & launch', text: 'We design, engineer, and deploy — then iterate with you.' }
 ];
 
 const values = ['Ideas', 'Technology', 'People', 'Solutions'];
@@ -26,7 +26,7 @@ export default function Connect() {
             Have an idea <span className="connect-gradient">worth building?</span>
           </h2>
           <p className="connect-lead">
-            Tell us the problem. We&apos;ll help turn it into something real — thoughtfully designed, carefully built.
+            Tell us about your project. We&apos;ll help turn your idea into a polished, high-performing digital product.
           </p>
           <div className="connect-buttons">
             <a className="button button-primary" href={`mailto:${EMAIL}?subject=New%20project%20enquiry`}>

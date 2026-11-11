@@ -7,16 +7,16 @@ export const projects = [
     status: 'Testing',
     liveUrl: 'https://mediqueue.theinnovibe.com/',
     domain: 'Healthcare',
-    domainSummary: 'Software that brings more order to medical centers and more clarity to the patient journey.',
+    domainSummary: 'Bringing order to clinical queues and clarity to patient journeys.',
     category: 'HEALTHCARE TECHNOLOGY',
     tagline: 'LESS WAITING. MORE CARING.',
-    summary: 'Better care starts with a better wait. A queue management system designed to bring more order to medical centers and more clarity to the patient journey.',
-    description: 'MediQueue is our queue management system for medical centers, currently in testing. It focuses on a familiar challenge: helping medical centers organize patient queues and making the waiting experience easier to understand. Our vision is a calmer, clearer journey from arrival to consultation.',
-    challenge: 'Patient queues can be hard for medical centers to organize, and waiting can be hard for patients to understand.',
+    summary: 'Smart queue management for modern medical centers and calmer waits.',
+    description: 'Organizes patient queues with real-time visibility, reducing waiting room stress for patients and clinical staff.',
+    challenge: 'Chaotic waiting rooms and uncertain wait times frustrate patients and clinic staff.',
     focus: [
-      'Helping medical centers organize patient queues',
-      'Making the waiting experience easier to understand',
-      'A calmer, clearer journey from arrival to consultation'
+      'Automated patient queue sequencing',
+      'Real-time waiting status on mobile',
+      'Smoother doctor-patient consultations'
     ]
   },
   {
@@ -27,16 +27,16 @@ export const projects = [
     status: 'In development',
     liveUrl: 'https://sahakara.theinnovibe.com/',
     domain: 'Home & everyday living',
-    domainSummary: 'Software that makes running a household simpler, more structured and easier to share.',
+    domainSummary: 'Making household help simple, structured, and easy to coordinate.',
     category: 'HOME & EVERYDAY LIVING',
     tagline: 'A LITTLE HELP. A LOT OF HARMONY.',
-    summary: 'A helping hand for a well-managed home. A house maid management system that brings household coordination together, making everyday routines simpler.',
-    description: 'sahakara is our house maid management system, currently in development. It focuses on simplifying the coordination of household help, bringing more structure to everyday responsibilities. Our vision is less time spent managing the routine and more room for the things that matter at home.',
-    challenge: 'Coordinating household help and everyday responsibilities can take more time and attention than it should.',
+    summary: 'Streamlined household coordination and help management in one place.',
+    description: 'Simplifies scheduling, task delegation, and daily household help management so homes run effortlessly.',
+    challenge: 'Coordinating domestic help and recurring chores often creates daily miscommunication.',
     focus: [
-      'Simplifying the coordination of household help',
-      'Bringing more structure to everyday responsibilities',
-      'Less time managing the routine, more room for what matters'
+      'Daily chore schedules & checklists',
+      'Clear helper task coordination',
+      'More free time for busy families'
     ]
   },
   {
@@ -46,16 +46,16 @@ export const projects = [
     iconClass: 'lab-icon',
     status: 'Requirement analysis',
     domain: 'Education',
-    domainSummary: 'Software that makes learning more hands-on, starting with chemistry for A/L students.',
+    domainSummary: 'Interactive practical chemistry simulations for students.',
     category: 'EDUCATION TECHNOLOGY',
     tagline: 'EXPERIMENT. OBSERVE. UNDERSTAND.',
-    summary: 'Chemistry you can explore. A virtual chemistry lab where A/L students can try experiments and see the concepts they study come to life.',
-    description: 'Our Virtual Chem Lab is a learning platform for A/L chemistry students, currently in requirement analysis. It focuses on bringing practical chemistry to the screen, so students can explore experiments, observe reactions and connect what they see to the theory they study. Our vision is chemistry that feels less abstract and more hands-on.',
-    challenge: 'Practical chemistry is hard to learn from textbooks alone, and time in a real lab is not always easy to get.',
+    summary: 'Interactive virtual chemistry laboratory for self-paced student experiments.',
+    description: 'Brings chemistry lab experiments to the screen so students can simulate reactions and learn by doing.',
+    challenge: 'Limited physical lab access makes practical chemistry difficult to practice and visualize.',
     focus: [
-      'Exploring experiments in a virtual lab',
-      'Seeing reactions and concepts come to life',
-      'Connecting practical work to A/L chemistry theory'
+      'Simulated titration and reactions',
+      'Step-by-step experiment modules',
+      'Direct alignment with A/L syllabus'
     ]
   }
 ];
