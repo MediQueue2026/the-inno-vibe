@@ -1,5 +1,6 @@
 import { useContext, useEffect } from 'react';
 import { Reveal } from '../hooks/useReveal.jsx';
+import { Link } from 'react-router';
 import { usePageTitle } from '../hooks/usePageTitle.js';
 import { projects } from '../projects.js';
 import PageHero from '../components/PageHero.jsx';
@@ -8,14 +9,23 @@ import Services from '../components/Services.jsx';
 import SystemsShowcase from '../components/SystemsShowcase.jsx';
 import { MotionContext } from '../motion.js';
 
-const statusDot = status => status === 'In development' ? 'development-dot' : 'analysis-dot';
+const statusDot = status => status === 'In development' ? 'development-dot'
+  : /test|qa/i.test(status) ? 'testing-dot'
+  : 'analysis-dot';
 
 // The bulb with glowing lines drawn out to each product, like the brand poster.
 function DomainMap() {
   return (
     <div className="domain-map">
       <div className="domain-map-bulb">
-        <img src={lockup} alt="TheInnoVibe logo: a glowing blue light bulb above the TheInnoVibe wordmark" width="1000" height="1000" />
+        <img
+          src={lockup}
+          alt="TheInnoVibe logo: a glowing blue light bulb above the TheInnoVibe wordmark"
+          width="1000"
+          height="1000"
+          fetchPriority="high"
+          decoding="async"
+        />
       </div>
       <svg className="domain-map-lines" viewBox="0 0 560 380" aria-hidden="true">
         {projects.map((project, index) => {
@@ -95,7 +105,7 @@ export default function Domains() {
         title={<>Where we build,<br /><span className="gradient-text">and what we’re building.</span></>}
         actions={<>
           <a className="button button-primary" href="#systems">Explore our systems <span aria-hidden="true">↓</span></a>
-          <a className="button button-secondary" href="#connect">Start a project</a>
+          <Link className="button button-secondary" to="/#connect">Start a project</Link>
         </>}
         jumps={[
           { href: '#services', label: 'What we do' },
@@ -111,13 +121,23 @@ export default function Domains() {
 
       <section className="page-section section-wrap band" id="domains">
         <span className="eyebrow"><span className="section-number">02 /</span> OUR DOMAINS</span>
-        <div className="card-grid card-grid-3">
-          {projects.map(project => (
+        <Reveal className="approach-heading domain-section-heading">
+          <h2>Focused on everyday life<span className="cyan">.</span></h2>
+          <p>Three essential spaces where thoughtful software can bring order, clarity and calm.</p>
+        </Reveal>
+        <div className="card-grid card-grid-3 domain-grid">
+          {projects.map((project, index) => (
             <Reveal as="a" key={project.id} href={`#${project.id}`} className={`info-card domain-card ${project.id}`}>
-              <span className={`product-icon ${project.iconClass}`} aria-hidden="true">{project.icon}</span>
+              <div className="domain-card-top">
+                <span className={`product-icon ${project.iconClass}`} aria-hidden="true">{project.icon}</span>
+                <span className="domain-index">0{index + 1} / DOMAIN</span>
+              </div>
               <h3>{project.domain}</h3>
               <p>{project.domainSummary}</p>
-              <span className="domain-system">System: <strong>{project.title}</strong> <span aria-hidden="true">↓</span></span>
+              <span className="domain-system">
+                <span>Featured system: <strong>{project.title}</strong></span>
+                <span className="domain-system-arrow" aria-hidden="true">↓</span>
+              </span>
             </Reveal>
           ))}
         </div>

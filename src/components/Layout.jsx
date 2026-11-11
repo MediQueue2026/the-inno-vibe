@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Outlet, useLocation } from 'react-router';
 import { MotionContext } from '../motion.js';
 import Header from './Header.jsx';
-import Connect from './Connect.jsx';
 import Footer from './Footer.jsx';
 
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
@@ -37,8 +36,9 @@ export default function Layout() {
     document.body.classList.toggle('about-cosmic-site', pathname === '/about');
     document.body.classList.toggle('team-page', pathname === '/team');
     document.body.classList.toggle('domains-page', pathname === '/domains');
+    document.body.classList.toggle('not-found-page', !['/', '/about', '/team', '/domains'].includes(pathname));
     return () => {
-      document.body.classList.remove('cosmic-site', 'about-cosmic-site', 'team-page', 'domains-page');
+      document.body.classList.remove('cosmic-site', 'about-cosmic-site', 'team-page', 'domains-page', 'not-found-page');
     };
   }, [pathname]);
 
@@ -48,7 +48,6 @@ export default function Layout() {
       <Header />
       <main id="main">
         <Outlet context={{ toggleMotion: () => setPaused(value => !value) }} />
-        <Connect />
       </main>
       <Footer />
     </MotionContext.Provider>

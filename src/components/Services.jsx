@@ -1,9 +1,26 @@
-import { lazy, Suspense, useRef } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router';
 import { Reveal } from '../hooks/useReveal.jsx';
 import { services } from '../services.js';
 
-const ServiceModel = lazy(() => import('./ServiceModel.jsx'));
+// Preload the 3D module in the background so it is in browser memory before the user scrolls
+let serviceModelPromise = null;
+function getServiceModel() {
+  if (!serviceModelPromise) {
+    serviceModelPromise = import('./ServiceModel.jsx');
+  }
+  return serviceModelPromise;
+}
+
+if (typeof window !== 'undefined') {
+  if ('requestIdleCallback' in window) {
+    window.requestIdleCallback(() => getServiceModel());
+  } else {
+    setTimeout(getServiceModel, 100);
+  }
+}
+
+const ServiceModel = lazy(getServiceModel);
 
 const icons = {
   software: <><circle cx="12" cy="12" r="3.2" /><path d="M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.5 5.5l1.7 1.7M16.8 16.8l1.7 1.7M5.5 18.5l1.7-1.7M16.8 7.2l1.7-1.7" /></>,
@@ -42,6 +59,25 @@ function resetCardPointer(event, pointer) {
 
 function ServiceCard({ service, index, showModels }) {
   const pointer = useRef({ x: 0, y: 0, active: false });
+  const modelBox = useRef(null);
+  // Pre-trigger WebGL initialization early before card is fully visible
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    if (!showModels) return undefined;
+    const box = modelBox.current;
+    if (!box) return undefined;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+        }
+      },
+      { rootMargin: '600px 0px' }
+    );
+    observer.observe(box);
+    return () => observer.disconnect();
+  }, [showModels]);
 
   return (
     <Reveal
@@ -51,10 +87,21 @@ function ServiceCard({ service, index, showModels }) {
       onPointerLeave={event => resetCardPointer(event, pointer)}
     >
       {showModels && (
-        <div className="service-model" aria-hidden="true">
-          <Suspense fallback={null}>
-            <ServiceModel type={service.id} pointer={pointer} />
-          </Suspense>
+        <div className="service-model" aria-hidden="true" ref={modelBox}>
+          {inView && (
+            <Suspense
+              fallback={
+                <div className="service-model-fallback">
+                  <span className="fallback-glow" />
+                  <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                    {icons[service.id]}
+                  </svg>
+                </div>
+              }
+            >
+              <ServiceModel type={service.id} pointer={pointer} />
+            </Suspense>
+          )}
         </div>
       )}
       <span className="service-index">{String(index + 1).padStart(2, '0')} / CAPABILITY</span>

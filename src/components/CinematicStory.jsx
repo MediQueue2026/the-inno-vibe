@@ -53,9 +53,9 @@ const framesData = [
 ];
 
 const FRAME_COUNT = 240;
-const MAX_ACTIVE_LOADS = 4;
-const MAX_CACHED_FRAMES = 24;
-const FRAME_LOOKAHEAD = 12;
+const MAX_ACTIVE_LOADS = 6;
+const MAX_CACHED_FRAMES = 72;
+const FRAME_LOOKAHEAD = 30;
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
 export default function CinematicStory() {
@@ -80,14 +80,22 @@ export default function CinematicStory() {
     let pendingFrames = [];
     const activeLoads = new Map();
     const failedFrames = new Set();
+    // Frames that are loaded AND decoded, so drawing them never blocks the main thread.
+    const ready = new Set();
+    let stickyTop = 0;
+    let travel = 1;
+    let visible = true;
+
+    const measure = () => {
+      stickyTop = document.querySelector('.site-header')?.offsetHeight ?? 0;
+      travel = Math.max(section.offsetHeight - window.innerHeight + stickyTop, 1);
+    };
 
     const paint = () => {
       renderRequest = 0;
       if (disposed) return;
 
       const rect = section.getBoundingClientRect();
-      const stickyTop = document.querySelector('.site-header')?.offsetHeight ?? 0;
-      const travel = Math.max(section.offsetHeight - window.innerHeight + stickyTop, 1);
       const targetProgress = clamp((stickyTop - rect.top) / travel, 0, 1);
       const nextTargetFrame = Math.round(targetProgress * (FRAME_COUNT - 1));
       if (nextTargetFrame !== targetFrame) {
@@ -105,26 +113,26 @@ export default function CinematicStory() {
       }
 
       let imageIndex = targetFrame;
-      let image = images[targetFrame];
-      if (!image?.complete || !image.naturalWidth) {
+      let image = ready.has(targetFrame) ? images[targetFrame] : undefined;
+      if (!image) {
         for (let distance = 1; distance <= FRAME_LOOKAHEAD; distance += 1) {
           const preferredIndex = targetFrame + distance * scrollDirection;
           const alternateIndex = targetFrame - distance * scrollDirection;
-          const preferred = images[preferredIndex];
-          const alternate = images[alternateIndex];
-          if (preferred?.complete && preferred.naturalWidth) {
+          const preferred = ready.has(preferredIndex) ? images[preferredIndex] : undefined;
+          const alternate = ready.has(alternateIndex) ? images[alternateIndex] : undefined;
+          if (preferred) {
             image = preferred;
             imageIndex = preferredIndex;
             break;
           }
-          if (alternate?.complete && alternate.naturalWidth) {
+          if (alternate) {
             image = alternate;
             imageIndex = alternateIndex;
             break;
           }
         }
       }
-      if (!image?.complete || !image.naturalWidth || drawnFrame === imageIndex) return;
+      if (!image || drawnFrame === imageIndex) return;
 
       const width = canvas.width;
       const height = canvas.height;
@@ -138,6 +146,7 @@ export default function CinematicStory() {
     };
 
     const schedulePaint = () => {
+      if (!visible) return;
       if (!renderRequest) renderRequest = requestAnimationFrame(paint);
     };
 
@@ -156,6 +165,7 @@ export default function CinematicStory() {
         image.onerror = null;
         image.removeAttribute('src');
         images[index] = undefined;
+        ready.delete(index);
         activeLoads.delete(index);
       });
 
@@ -189,9 +199,16 @@ export default function CinematicStory() {
         image.onload = () => {
           if (activeLoads.get(index) !== image) return;
           activeLoads.delete(index);
-          pruneFrames();
-          schedulePaint();
           pumpFrameQueue();
+          // Decode off the main thread before the frame can be drawn.
+          const done = () => {
+            if (disposed || images[index] !== image) return;
+            ready.add(index);
+            pruneFrames();
+            schedulePaint();
+          };
+          if (image.decode) image.decode().then(done, done);
+          else done();
         };
         image.onerror = () => {
           if (activeLoads.get(index) !== image) return;
@@ -207,9 +224,7 @@ export default function CinematicStory() {
 
     function pruneFrames() {
       const cachedIndices = [];
-      images.forEach((image, index) => {
-        if (image?.complete && image.naturalWidth) cachedIndices.push(index);
-      });
+      ready.forEach(index => cachedIndices.push(index));
       if (cachedIndices.length <= MAX_CACHED_FRAMES) return;
 
       const keep = new Set(cachedIndices
@@ -220,10 +235,12 @@ export default function CinematicStory() {
         const image = images[index];
         image.removeAttribute('src');
         images[index] = undefined;
+        ready.delete(index);
       });
     }
 
     const resizeCanvas = () => {
+      measure();
       const bounds = canvas.getBoundingClientRect();
       const pixelRatio = Math.min(window.devicePixelRatio || 1, matchMedia('(max-width: 640px)').matches ? 1 : 1.5);
       const width = Math.max(1, Math.round(bounds.width * pixelRatio));
@@ -241,6 +258,12 @@ export default function CinematicStory() {
     const resizeObserver = new ResizeObserver(resizeCanvas);
     resizeObserver.observe(canvas);
     resizeCanvas();
+    // Do no work while the film is scrolled out of view.
+    const visibilityObserver = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      if (visible) schedulePaint();
+    }, { rootMargin: '200px 0px' });
+    visibilityObserver.observe(section);
     window.addEventListener('scroll', schedulePaint, { passive: true });
     window.addEventListener('resize', resizeCanvas);
 
@@ -248,6 +271,7 @@ export default function CinematicStory() {
       disposed = true;
       if (renderRequest) cancelAnimationFrame(renderRequest);
       resizeObserver.disconnect();
+      visibilityObserver.disconnect();
       window.removeEventListener('scroll', schedulePaint);
       window.removeEventListener('resize', resizeCanvas);
       pendingFrames = [];
@@ -278,10 +302,19 @@ export default function CinematicStory() {
         </div>
         <div className="story-copy" key={story.id}>
           <span className="story-kicker">
-            {story.frame} <span className="story-divider">&bull;</span> {story.label}
+            <span className="story-kicker-badge">{story.frame} / 07</span>
+            <span className="story-divider">&bull;</span> {story.label}
           </span>
           <h2>{story.title}</h2>
           <p className="story-desc">{story.text}</p>
+          <div className="story-chapters" aria-hidden="true">
+            {framesData.map((item, idx) => (
+              <span
+                key={item.id}
+                className={idx < activeIndex ? 'is-past' : idx === activeIndex ? 'is-current' : ''}
+              />
+            ))}
+          </div>
         </div>
         <button
           className="story-scroll-cue"

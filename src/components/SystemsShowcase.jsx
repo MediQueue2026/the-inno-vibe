@@ -74,9 +74,34 @@ export default function SystemsShowcase() {
           <div className="showcase-head">
             <span className="category">{project.category}</span>
             <span className="project-tag"><i className={statusDot(project.status)}></i> {project.status}</span>
+            {project.liveUrl && (
+              <a
+                className="showcase-live-btn"
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span>Visit Live System</span>
+                <span aria-hidden="true">↗</span>
+              </a>
+            )}
           </div>
           <h3>{project.title}<span className="product-mark">.</span></h3>
           <p className="showcase-lead">{project.description}</p>
+          {project.liveUrl && (
+            <div className="showcase-live-callout">
+              <span className="live-callout-label">Live system preview:</span>
+              <a
+                className="showcase-live-link"
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {project.liveUrl}
+                <span aria-hidden="true"> ↗</span>
+              </a>
+            </div>
+          )}
           <div className="showcase-columns">
             <div className="showcase-challenge">
               <h4>The challenge</h4>

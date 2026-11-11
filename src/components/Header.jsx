@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { NavLink } from 'react-router';
+import { Link, NavLink } from 'react-router';
 import { pages } from '../navigation.js';
 import Brand from './Brand.jsx';
 
@@ -52,7 +52,7 @@ export default function Header() {
         </button>
         <nav id="navigation" className={open ? 'site-nav is-open' : 'site-nav'} aria-label="Main navigation">
           {pages.map(page => <NavLink key={page.to} to={page.to} end onClick={close}>{page.label}</NavLink>)}
-          <a className="button button-primary nav-cta" href="#connect" onClick={close}>Let’s connect <span aria-hidden="true">↗</span></a>
+          <Link className="button button-primary nav-cta" to="/#connect" onClick={close}>Let’s connect <span aria-hidden="true">↗</span></Link>
         </nav>
       </div>
     </header>

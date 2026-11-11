@@ -20,7 +20,10 @@ export default function IdeaScene() {
         if (cancelled) scene.dispose();
         else sceneRef.current = scene;
       })
-      .catch(error => console.info('The 3D illustration is unavailable.', error));
+      .catch(error => {
+        console.info('The 3D illustration is unavailable.', error);
+        setReady(false);
+      });
     return () => {
       cancelled = true;
       sceneRef.current?.dispose();
@@ -34,7 +37,7 @@ export default function IdeaScene() {
   }, [paused]);
 
   return (
-    <div className={ready ? 'hero-art scene-ready' : 'hero-art'}>
+    <div className={`hero-art${ready ? ' scene-ready' : ''}`}>
       <div id="idea-scene" ref={hostRef} aria-hidden="true"></div>
     </div>
   );

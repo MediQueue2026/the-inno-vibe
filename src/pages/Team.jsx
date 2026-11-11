@@ -39,6 +39,7 @@ function MemberCard({ member, index }) {
   return (
     <article className={`member-card is-${discipline}${member.photo ? ' has-photo' : ''}`} style={{ '--i': index }}>
       <div className={`member-cover${member.photo ? ' has-photo' : ''}`}>
+        <span className="member-discipline-badge">{disciplineOf(member.role)}</span>
         {member.photo
           ? <img className="member-photo" src={member.photo} alt={member.name} />
           : <span className="member-cover-icon" aria-hidden="true"><RoleIcon role={member.role} size={96} /></span>}
@@ -67,7 +68,7 @@ function TeamDirectory() {
   return (
     <div className="team-directory" id="members">
       <div className="team-toolbar">
-        <p className="team-summary"><strong>{team.length} people</strong> · {roleCount} roles · one shared vibe</p>
+        <p className="team-summary"><strong>{team.length} specialists</strong> · {roleCount} disciplines · one shared vibe</p>
         <div className="team-filters" role="group" aria-label="Filter the team by discipline">
           {groups.map(group => {
             const count = group === 'All' ? team.length : team.filter(member => disciplineOf(member.role) === group).length;
@@ -130,8 +131,7 @@ export default function Team() {
         crumb="Our team"
         title={<>The people<br /><span className="gradient-text">behind the vibe.</span></>}
         actions={<>
-          <a className="button button-primary" href="#join">Join our team <span aria-hidden="true">↓</span></a>
-          <Link className="button button-secondary" to="/about">About TheInnoVibe</Link>
+          <Link className="button button-primary" to="/about">About TheInnoVibe <span aria-hidden="true">→</span></Link>
         </>}
         visual={<TeamDirectory />}
         decor={<TeamDecor />}
@@ -142,11 +142,15 @@ export default function Team() {
       <section className="page-section team-join-section" id="join">
         <div className="section-wrap">
           <Reveal className="info-card join-card">
-            <div>
+            <div className="join-card-copy">
+              <span className="eyebrow join-eyebrow"><span className="status-dot"></span> CAREERS & COLLABORATION</span>
               <h3>Want to build with us?</h3>
-              <p>We’re always happy to hear from people who care about purposeful technology.</p>
+              <p>We’re always happy to hear from engineers, designers and problem-solvers who care about purposeful technology.</p>
             </div>
-            <a className="button button-primary" href="mailto:theinnovibe@gmail.com">Get in touch <span aria-hidden="true">↗</span></a>
+            <div className="join-card-actions">
+              <a className="button button-primary" href="mailto:theinnovibe@gmail.com?subject=Joining%20TheInnoVibe">Get in touch <span aria-hidden="true">↗</span></a>
+              <span className="join-email-hint">theinnovibe@gmail.com</span>
+            </div>
           </Reveal>
         </div>
       </section>

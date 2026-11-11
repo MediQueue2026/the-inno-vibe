@@ -4,15 +4,34 @@ import { usePageTitle } from '../hooks/usePageTitle.js';
 import { useCountUp } from '../hooks/useCountUp.js';
 import PageHero, { AnimatedWords } from '../components/PageHero.jsx';
 import lockup from '../assets/theinnovibe-brand-lockup.jpg';
-import Approach from '../components/Approach.jsx';
 import { services } from '../services.js';
 import { projects } from '../projects.js';
 
-const process = [
-  { title: 'Understand', text: 'Spend time with the people and processes behind a challenge before deciding what to build.' },
-  { title: 'Design', text: 'Shape the product around real workflows, so it feels familiar from the first use.' },
-  { title: 'Build', text: 'Engineer reliable software in small, testable steps, alongside the people who will use it.' },
-  { title: 'Refine', text: 'Listen to feedback, measure what helps, and keep improving the experience.' }
+const values = [
+  {
+    number: '01',
+    title: 'Empathy Before Architecture',
+    subtitle: 'UNDERSTAND FIRST',
+    text: 'We immerse ourselves in the actual problem, user workflows, and daily friction before writing a line of code or finalizing system models.'
+  },
+  {
+    number: '02',
+    title: 'Lean & Purposeful',
+    subtitle: 'NO ARTIFICIAL BLOAT',
+    text: 'Every feature, screen, and endpoint must earn its place by solving a tangible requirement and simplifying real human tasks.'
+  },
+  {
+    number: '03',
+    title: 'Resilient Craftsmanship',
+    subtitle: 'ENGINEERED TO LAST',
+    text: 'We build with clean conventions, rigorous testing, and robust architectures that stay reliable as usage grows and demands evolve.'
+  },
+  {
+    number: '04',
+    title: 'Iterative Partnership',
+    subtitle: 'TRANSPARENT EVOLUTION',
+    text: 'Great products aren’t built in isolation. We share progress early, test alongside real users, and continuously measure what works.'
+  }
 ];
 
 function Stat({ value, label }) {
@@ -66,8 +85,7 @@ export default function About() {
         jumps={[
           { href: '#who-we-are', label: 'Who we are' },
           { href: '#mission', label: 'Mission & vision' },
-          { href: '#approach', label: 'How we build' },
-          { href: '#process', label: 'Our process' }
+          { href: '#values', label: 'Our values' }
         ]}
         visual={<AboutOrbit />}
       >
@@ -75,54 +93,121 @@ export default function About() {
       </PageHero>
 
       <section className="about section-wrap" id="who-we-are">
-        <Reveal className="section-heading">
-          <span className="eyebrow"><span className="section-number">01 /</span> WHO WE ARE</span>
-          <h2>Real challenges.<br />Fresh thinking.<br /><span className="muted">Engineered into solutions.</span></h2>
+        <Reveal className="about-intro-col">
+          <span className="eyebrow about-eyebrow">
+            <span className="about-pulse" aria-hidden="true"></span>
+            <span className="section-number">01 /</span> WHO WE ARE
+          </span>
+          <h2>
+            Real challenges.<br />
+            Fresh thinking.<br />
+            <span className="gradient-text">Engineered into solutions.</span>
+          </h2>
+          <div className="about-pillars" aria-label="Core pillars">
+            <div className="about-pillar-item">
+              <span className="pillar-dot" aria-hidden="true"></span>
+              <div>
+                <strong>Product Thinking</strong>
+                <small>Grounding every system in genuine human workflows</small>
+              </div>
+            </div>
+            <div className="about-pillar-item">
+              <span className="pillar-dot" aria-hidden="true"></span>
+              <div>
+                <strong>Modern Engineering</strong>
+                <small>Reliable, scalable code designed to evolve with need</small>
+              </div>
+            </div>
+            <div className="about-pillar-item">
+              <span className="pillar-dot" aria-hidden="true"></span>
+              <div>
+                <strong>Human-Centered Design</strong>
+                <small>Clear, intuitive interactions that reduce daily friction</small>
+              </div>
+            </div>
+          </div>
         </Reveal>
-        <Reveal className="about-copy">
-          <p>We’re TheInnoVibe — a technology startup building digital products that simplify complex, everyday workflows.</p>
-          <p>Alongside custom software, web development and digital transformation work, our own products span healthcare, household management and education. We start by understanding the people and processes behind each challenge, then bring product design and software engineering together to develop practical solutions.</p>
-          <Link className="text-link" to="/domains">See where we work <span aria-hidden="true">↗</span></Link>
+
+        <Reveal className="about-story-card">
+          <div className="about-card-badge">THEINNOVIBE AT A GLANCE</div>
+          <p className="about-lead">
+            We’re TheInnoVibe — a technology startup building digital products that simplify complex, everyday workflows.
+          </p>
+          <p className="about-body-text">
+            Alongside custom software, web development and digital transformation work, our own products span healthcare, household management and education. We start by understanding the people and processes behind each challenge, then bring product design and software engineering together to develop practical solutions.
+          </p>
+          <div className="about-domains-strip">
+            <span className="about-domains-label">Focus spaces:</span>
+            <span className="about-domain-pill">Healthcare</span>
+            <span className="about-domain-pill">Everyday living</span>
+            <span className="about-domain-pill">Education</span>
+          </div>
+          <div className="about-card-actions">
+            <Link className="button button-primary" to="/domains">
+              See where we work <span aria-hidden="true">→</span>
+            </Link>
+            <Link className="button button-secondary" to="/team">
+              Meet the team
+            </Link>
+          </div>
         </Reveal>
       </section>
 
       <section className="page-section section-wrap band" id="mission">
         <span className="eyebrow"><span className="section-number">02 /</span> MISSION & VISION</span>
         <div className="card-grid">
-          <Reveal as="article" className="info-card">
-            <span className="value-icon" aria-hidden="true">◎</span>
+          <Reveal as="article" className="info-card mission-card">
+            <div className="info-card-top">
+              <span className="value-icon" aria-hidden="true">◎</span>
+              <span className="info-card-badge">01 / PURPOSE</span>
+            </div>
             <h3>Our mission</h3>
             <p>To turn real-world challenges into purposeful software that is built around the people who use it every day.</p>
           </Reveal>
-          <Reveal as="article" className="info-card">
-            <span className="value-icon" aria-hidden="true">✧</span>
+          <Reveal as="article" className="info-card vision-card">
+            <div className="info-card-top">
+              <span className="value-icon" aria-hidden="true">✧</span>
+              <span className="info-card-badge">02 / DIRECTION</span>
+            </div>
             <h3>Our vision</h3>
             <p>Everyday systems that feel calmer, clearer and simpler, starting with healthcare, the home and education.</p>
           </Reveal>
         </div>
       </section>
 
-      <Approach />
-
-      <section className="page-section section-wrap" id="process">
-        <span className="eyebrow"><span className="section-number">04 /</span> OUR PROCESS</span>
-        <Reveal className="approach-heading">
-          <h2>From idea to impact<span className="cyan">.</span></h2>
-          <p>Four steps we follow for every product.</p>
+      <section className="page-section section-wrap" id="values">
+        <span className="eyebrow"><span className="section-number">03 /</span> OUR CORE VALUES</span>
+        <Reveal className="approach-heading values-section-heading">
+          <h2>Principles that guide<br /><span className="gradient-text">every product we build.</span></h2>
+          <p>The engineering mindset, ethical standards, and cultural philosophy behind our work.</p>
         </Reveal>
-        <ol className="process-list">
-          {process.map((step, index) => (
-            <Reveal as="li" key={step.title}>
-              <span className="process-number">{String(index + 1).padStart(2, '0')}</span>
-              <h3>{step.title}</h3>
-              <p>{step.text}</p>
+        <div className="about-values-grid">
+          {values.map(val => (
+            <Reveal as="article" key={val.number} className="about-value-card">
+              <div className="about-value-top">
+                <span className="about-value-num">{val.number}</span>
+                <span className="about-value-sub">{val.subtitle}</span>
+              </div>
+              <h3>{val.title}</h3>
+              <p>{val.text}</p>
             </Reveal>
           ))}
-        </ol>
-        <div className="page-links">
-          <Link className="button button-secondary" to="/team">Meet the team <span aria-hidden="true">→</span></Link>
-          <Link className="text-link" to="/domains">Explore our domains & systems <span aria-hidden="true">→</span></Link>
         </div>
+
+        <Reveal className="about-connect-banner">
+          <div className="about-banner-copy">
+            <h3>Ready to see what we’re building?</h3>
+            <p>Explore our active domains and systems, or connect with the engineers and creators behind the vibe.</p>
+          </div>
+          <div className="about-banner-actions">
+            <Link className="button button-primary" to="/domains">
+              Explore our systems <span aria-hidden="true">→</span>
+            </Link>
+            <Link className="button button-secondary" to="/team">
+              Meet the team
+            </Link>
+          </div>
+        </Reveal>
       </section>
     </>
   );

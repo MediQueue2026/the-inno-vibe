@@ -28,12 +28,13 @@ export default function Footer() {
           <h2>What we do</h2>
           <ul>{services.map(service => <li key={service.id}><Link to="/domains#services">{service.title}</Link></li>)}</ul>
         </div>
-        <div className="footer-column">
+        <div className="footer-column footer-contact-col">
           <h2>Contact</h2>
-          <ul>
-            <li><a href="mailto:theinnovibe@gmail.com">theinnovibe@gmail.com</a></li>
-            <li><a href="#connect">Start a conversation</a></li>
-          </ul>
+          <p className="footer-contact-note">Have a challenge or an idea in mind? Reach out anytime.</p>
+          <a className="footer-email-pill" href="mailto:theinnovibe@gmail.com">
+            <span className="footer-email-dot" aria-hidden="true"></span>
+            theinnovibe@gmail.com
+          </a>
         </div>
       </div>
       <div className="section-wrap footer-bottom">
