@@ -527,7 +527,7 @@ export default function ServiceModel({ type, pointer }) {
     <Canvas
       aria-hidden="true"
       camera={{ position: [0.18, 0.16, 3.05], fov: 34 }}
-      dpr={mobile ? 1 : [1, 1.5]}
+      dpr={mobile ? 1 : [1, 1.25]}
       frameloop={paused ? 'demand' : 'always'}
       gl={{
         alpha: true,

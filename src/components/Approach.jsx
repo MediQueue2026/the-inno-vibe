@@ -1,7 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import { Reveal } from '../hooks/useReveal.jsx';
 
-const steps = ['Understand', 'Plan', 'Design', 'Build', 'Test', 'Launch'];
+const steps = [
+  { label: 'Understand', detail: 'Research workflows & user needs', icon: '⌕' },
+  { label: 'Plan', detail: 'Define architecture & scope', icon: '▤' },
+  { label: 'Design', detail: 'Craft intuitive interfaces', icon: '✳' },
+  { label: 'Build', detail: 'Engineer reliable systems', icon: '</>' },
+  { label: 'Test', detail: 'Verify quality & edge cases', icon: '✓' },
+  { label: 'Launch', detail: 'Deploy, measure & evolve', icon: '↗' }
+];
 
 export default function Approach({ number = '03' }) {
   const sectionRef = useRef(null);
@@ -48,15 +55,18 @@ export default function Approach({ number = '03' }) {
         <span className="process-line-fill" aria-hidden="true" />
         {steps.map((step, index) => (
           <li
-            key={step}
-            className={index <= activeStep ? 'is-active' : ''}
+            key={step.label}
+            className={`${index <= activeStep ? 'is-active' : ''}${index === activeStep ? ' is-current' : ''}`}
             aria-current={index === activeStep ? 'step' : undefined}
           >
-            <span className="process-node">
-              <span className="process-icon" aria-hidden="true">{['⌕', '▤', '✳', '</>', '✓', '↗'][index]}</span>
-              <span className="process-number">{String(index + 1).padStart(2, '0')}</span>
-            </span>
-            <span className="process-label">{step}</span>
+            <div className="process-card">
+              <span className="process-node">
+                <span className="process-icon" aria-hidden="true">{step.icon}</span>
+                <span className="process-number">{String(index + 1).padStart(2, '0')}</span>
+              </span>
+              <span className="process-label">{step.label}</span>
+              <span className="process-detail">{step.detail}</span>
+            </div>
           </li>
         ))}
       </ol>

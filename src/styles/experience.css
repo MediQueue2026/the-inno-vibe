@@ -15,19 +15,6 @@ body { background-image: radial-gradient(ellipse at 85% 0%, #e6efff, transparent
 .motion-paused *, .motion-paused *::before, .motion-paused *::after { animation-play-state: paused !important; }
 .motion-paused .reveal { transition: none; }
 
-.connect-panel::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  opacity: .6;
-  background-image: radial-gradient(#ffffff40 1px, transparent 1px);
-  background-size: 20px 20px;
-  mask-image: radial-gradient(ellipse 60% 100% at 100% 0%, black, transparent 70%);
-}
-
-
 @media (prefers-reduced-motion: reduce) {
   .reveal.is-pending { opacity: 1; translate: none; }
   .values-grid article:hover, .service-card:hover, .button:hover { transform: none; }

@@ -359,21 +359,6 @@ h2 { margin: 0; font-size: var(--fs-h2); font-weight: 750; line-height: 1.2; let
 .service-card:nth-child(3) .service-icon { background: linear-gradient(135deg, #3b4fd8, #1d5ce6); }
 
 /* Connect */
-.connect { padding-block: calc(var(--section-y) * .75); }
-.connect-panel { position: relative; overflow: hidden; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px 48px; padding: clamp(28px, 3.5vw, 44px) clamp(24px, 4vw, 56px); color: #ffffff; background: radial-gradient(ellipse at 92% 10%, #3a8bff, transparent 60%), linear-gradient(135deg, #1d5ce6, #1343b3); border-radius: 20px; box-shadow: 0 28px 64px #1d5ce640; }
-.connect-panel > * { position: relative; z-index: 1; }
-.connect-panel .eyebrow { color: #dbe6ff; }
-.connect-panel .status-dot { background: #ffffff; box-shadow: 0 0 0 4px #ffffff33; }
-.connect-copy { flex: 1 1 460px; }
-.connect-panel .eyebrow { margin-bottom: 12px; }
-.connect h2 { margin: 0 0 10px; font-size: clamp(26px, 3vw, 38px); color: #ffffff; }
-.connect .gradient-text { background: none; color: #bfe0ff; }
-.connect p { max-width: 520px; margin: 0; font-size: var(--fs-base); color: #dbe6ff; }
-.connect-buttons { display: flex; flex-wrap: wrap; gap: 11px; margin-top: 24px; }
-.connect-buttons { display: flex; flex-wrap: wrap; gap: 11px; margin-top: 24px; }
-.connect-actions { display: flex; flex-direction: column; align-items: flex-end; gap: 12px; }
-.connect-panel .button-primary { background: #ffffff; color: var(--accent-strong); box-shadow: 0 8px 22px #0a163333; }
-.connect-panel .button-primary:hover { background: #eef4ff; }
 .contact-email { display: block; width: fit-content; padding-block: 8px; font-size: 15px; color: #dbe6ff; }
 .contact-email:hover { color: #ffffff; text-decoration: underline; text-underline-offset: 4px; }
 
@@ -497,10 +482,7 @@ h2 { margin: 0; font-size: var(--fs-h2); font-weight: 750; line-height: 1.2; let
   .approach-heading { flex-direction: column; align-items: flex-start; gap: 12px; }
   .values-grid, .services-grid { grid-template-columns: 1fr; gap: 14px; margin-top: 28px; }
   .values-grid article, .service-card { padding: 22px; }
-  .connect-panel { border-radius: 16px; }
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 28px 20px; padding-block: 36px 24px; }
-  .connect-actions { align-items: stretch; width: 100%; }
-  .connect-actions .contact-email { align-self: center; }
   .footer-bottom { flex-direction: column; align-items: flex-start; gap: 8px; }
   .footer-motto { margin-left: 0; }
 }
