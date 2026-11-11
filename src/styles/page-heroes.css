@@ -399,13 +399,19 @@ span.member-avatar {
 }
 
 @media (max-width: 640px) {
+  .page-hero h1 { font-size: clamp(28px, 8.5vw, 42px); line-height: 1.15; }
   .page-hero-lead { font-size: var(--fs-base); }
+  .page-hero-actions { display: flex; flex-direction: column; width: 100%; gap: 10px; }
+  .page-hero-actions .button { width: 100%; justify-content: center; min-height: 46px; }
+  .page-jumps { flex-wrap: wrap; gap: 8px; }
+  .page-jumps a { padding: 6px 12px; font-size: 12px; }
+  .orbit-stage { width: min(100%, 290px); height: 290px; }
   .orbit-chip > span { padding: 6px 14px; font-size: 13px; }
   .about-stats div { min-width: 0; padding-inline: 8px; }
 
   /* Stack the domain map: bulb on top, cards below, no connector lines */
   .domain-map { aspect-ratio: auto; display: grid; gap: 14px; }
-  .domain-map-bulb { position: relative; top: auto; width: 180px; margin: 0 auto 8px; }
+  .domain-map-bulb { position: relative; top: auto; width: 160px; margin: 0 auto 8px; }
   .domain-map-lines { display: none; }
   .domain-map-cards { position: static; display: grid; gap: 10px; }
   .domain-map-cards li { position: relative; top: auto; left: auto; width: auto; height: auto; }

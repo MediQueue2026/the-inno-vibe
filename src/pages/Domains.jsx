@@ -114,7 +114,7 @@ export default function Domains() {
         ]}
         visual={<DomainMap />}
       >
-        We build custom software, websites and digital systems, and we’re working on our own products in healthcare, the home and education.
+        We build custom software and proprietary products across healthcare, home management, and education.
       </PageHero>
 
       <Services number="01" heading={false} />
@@ -123,7 +123,7 @@ export default function Domains() {
         <span className="eyebrow"><span className="section-number">02 /</span> OUR DOMAINS</span>
         <Reveal className="approach-heading domain-section-heading">
           <h2>Focused on everyday life<span className="cyan">.</span></h2>
-          <p>Three essential spaces where thoughtful software can bring order, clarity and calm.</p>
+          <p>Three essential spaces where thoughtful software brings clarity and order.</p>
         </Reveal>
         <div className="card-grid card-grid-3 domain-grid">
           {projects.map((project, index) => (
@@ -147,7 +147,7 @@ export default function Domains() {
         <span className="eyebrow"><span className="section-number">03 /</span> OUR SYSTEMS</span>
         <Reveal className="approach-heading">
           <h2>One purpose, three systems<span className="cyan">.</span></h2>
-          <p>Choose a system to see the problem it solves and where it is in development.</p>
+          <p>Explore our active systems, current progress, and live deployments.</p>
         </Reveal>
         <SystemsShowcase />
       </section>

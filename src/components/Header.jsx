@@ -17,16 +17,32 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
+    document.documentElement.classList.toggle('menu-open', open);
     document.body.classList.toggle('menu-open', open);
+
     if (!open) return;
+
+    // Lock scrolling completely when sidebar/menu is open
+    const preventScroll = event => {
+      event.preventDefault();
+    };
+
+    document.addEventListener('touchmove', preventScroll, { passive: false });
+
     const onKeyDown = event => {
       if (event.key === 'Escape') {
         close();
-        toggleRef.current.focus();
+        toggleRef.current?.focus();
       }
     };
     document.addEventListener('keydown', onKeyDown);
-    return () => document.removeEventListener('keydown', onKeyDown);
+
+    return () => {
+      document.removeEventListener('touchmove', preventScroll);
+      document.removeEventListener('keydown', onKeyDown);
+      document.documentElement.classList.remove('menu-open');
+      document.body.classList.remove('menu-open');
+    };
   }, [open]);
 
   useEffect(() => {
@@ -40,6 +56,7 @@ export default function Header() {
     <header className={`site-header${scrolled || open ? ' is-scrolled' : ''}${scrolled ? ' is-compact' : ''}`}>
       <div className="header-inner">
         <Brand aria-label="TheInnoVibe home" onClick={close} />
+        
         <button
           ref={toggleRef}
           className={open ? 'menu-toggle is-open' : 'menu-toggle'}
@@ -50,9 +67,26 @@ export default function Header() {
         >
           <span></span><span></span>
         </button>
-        <nav id="navigation" className={open ? 'site-nav is-open' : 'site-nav'} aria-label="Main navigation">
-          {pages.map(page => <NavLink key={page.to} to={page.to} end onClick={close}>{page.label}</NavLink>)}
-          <Link className="button button-primary nav-cta" to="/#connect" onClick={close}>Let’s connect <span aria-hidden="true">↗</span></Link>
+
+        {/* Static Mobile Navigation Menu */}
+        <nav id="navigation" className={`site-nav${open ? ' is-open' : ''}`} aria-label="Main navigation">
+          <div className="sidebar-nav-links">
+            {pages.map(page => (
+              <NavLink key={page.to} to={page.to} end onClick={close}>
+                <span>{page.label}</span>
+                <span className="sidebar-nav-arrow" aria-hidden="true">&rarr;</span>
+              </NavLink>
+            ))}
+          </div>
+
+          <div className="sidebar-drawer-foot">
+            <Link className="button button-primary nav-cta" to="/#connect" onClick={close}>
+              Let’s connect <span aria-hidden="true">&rarr;</span>
+            </Link>
+            <div className="sidebar-motto">
+              <span>THINK &bull; BUILD &bull; VIBE</span>
+            </div>
+          </div>
         </nav>
       </div>
     </header>

@@ -1027,6 +1027,10 @@ body.not-found-page .page-hero-actions {
   .join-card-actions { align-items: stretch; width: 100%; }
   .join-email-hint { align-self: center; }
   .showcase-tabs { grid-template-columns: 1fr; }
+  .showcase-head { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .showcase-live-btn { margin-left: 0; }
+  .showcase-live-callout { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; width: 100%; }
+  .showcase-live-link { word-break: break-all; font-size: 12px; }
   .showcase-panel { padding: 18px; }
   .showcase-columns { grid-template-columns: 1fr; }
   .showcase-visual .project-visual { padding-inline: 16px; }

@@ -6,7 +6,7 @@ const PILLARS = [
     step: '01',
     label: 'THINK',
     tagline: 'Spark the vision',
-    description: 'We explore ideas, untangle challenges, and shape clear concepts anyone can understand.',
+    description: 'Explore challenges, clarify goals, and shape crisp product concepts.',
     color: '#38bdf8',
     glow: 'rgba(56, 189, 248, 0.45)',
     icon: (
@@ -21,7 +21,7 @@ const PILLARS = [
     step: '02',
     label: 'BUILD',
     tagline: 'Craft the experience',
-    description: 'We design beautiful websites, apps, and digital systems that work seamlessly for real people.',
+    description: 'Design and engineer fast, intuitive apps and platforms that just work.',
     color: '#60a5fa',
     glow: 'rgba(96, 165, 250, 0.45)',
     icon: (
@@ -37,7 +37,7 @@ const PILLARS = [
     step: '03',
     label: 'VIBE',
     tagline: 'Bring it to life',
-    description: 'We launch products with personality, energy, and care so your users truly love them.',
+    description: 'Ship with polish, character, and care so people truly love using it.',
     color: '#c084fc',
     glow: 'rgba(192, 132, 252, 0.45)',
     icon: (

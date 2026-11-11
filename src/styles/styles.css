@@ -1,4 +1,4 @@
-﻿@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;550;600;650;700&family=Manrope:wght@500;600;650;700;750;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;550;600;650;700&family=Manrope:wght@500;600;650;700;750;800&display=swap');
 
 /* Design tokens */
 :root {
@@ -64,7 +64,16 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 html, body { overflow-x: clip; }
-body.menu-open { overflow: hidden; }
+html.menu-open,
+body.menu-open {
+  overflow: hidden !important;
+  height: 100% !important;
+  max-height: 100vh !important;
+  touch-action: none !important;
+  overscroll-behavior: none !important;
+  position: fixed !important;
+  width: 100% !important;
+}
 a { color: inherit; text-decoration: none; }
 button { font: inherit; cursor: pointer; }
 button, a { -webkit-tap-highlight-color: transparent; }
@@ -123,6 +132,8 @@ h2 { margin: 0; font-size: var(--fs-h2); font-weight: 750; line-height: 1.2; let
 .site-nav > a.active::after { content: ''; position: absolute; left: 14px; right: 14px; bottom: 4px; height: 2px; border-radius: 2px; background: var(--accent); }
 .nav-cta { margin-left: 12px; min-height: 44px; padding: 10px 18px; font-size: 14px; }
 .menu-toggle { display: none; }
+.sidebar-drawer-foot, .sidebar-nav-arrow { display: none; }
+.sidebar-nav-links { display: contents; }
 
 /* Hero */
 .hero { 
