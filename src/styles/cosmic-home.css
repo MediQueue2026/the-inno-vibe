@@ -709,10 +709,12 @@ body.cosmic-site .text-link:hover {
     radial-gradient(ellipse at 40% 85%, #06326c24, transparent 30%);
 }
 
+/* Home hero: one large cascading headline over the full planet artwork.
+   The three lines step forward and brighten, like an idea coming into focus. */
 .cosmic-home .hero {
-  min-height: min(830px, calc(100svh - var(--header-h) - 12px));
+  min-height: min(860px, calc(100svh - var(--header-h) - 12px));
   margin-top: 12px;
-  padding-top: 32px;
+  padding-top: 0;
   border: 1px solid #8bc8ff31;
   border-radius: 26px;
   background: #030918;
@@ -722,446 +724,208 @@ body.cosmic-site .text-link:hover {
 .cosmic-home .hero-bg-animated {
   inset: -5%;
   z-index: 0;
-  background-color: #030817;
-  background-image:
-    linear-gradient(90deg, #030817e8 0%, #030817b8 38%, #03081770 68%, #0308179c 100%),
-    linear-gradient(180deg, #03081740 0%, #03081714 50%, #030817a8 100%),
-    url('/cosmic-main-bg.png');
-  background-size: cover, cover, cover;
-  background-position: center, center, center 68%;
-  background-repeat: no-repeat;
+  background: #030817 url('/cosmic-main-bg.png') 72% 64% / cover no-repeat;
 }
 
+/* Scrim only where the copy sits; the right side of the artwork stays clear. */
 .cosmic-home .hero::after {
   z-index: 1;
   background:
-    linear-gradient(90deg, #030817f5 0%, #030817e6 33%, #03081770 57%, #03081712 100%),
-    linear-gradient(0deg, #030817e3, transparent 23%);
+    linear-gradient(90deg, #030817f2 0%, #030817d9 34%, #0308178c 60%, #03081700 82%),
+    linear-gradient(0deg, #030817e6 0%, #03081700 26%);
 }
 
 .cosmic-home .hero-copy {
-  max-width: min(56%, 660px);
-  padding: clamp(32px, 4.5vw, 72px) clamp(24px, 3.5vw, 56px) 70px;
   position: relative;
   z-index: 2;
+  max-width: none;
+  margin-block: auto;
+  padding: clamp(40px, 6vh, 88px) clamp(24px, 5vw, 80px) clamp(32px, 5vh, 64px);
 }
 
-.cosmic-home .hero .eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 7px 16px;
-  color: #9cd5ff;
-  background: rgba(8, 20, 44, 0.75);
-  border: 1px solid rgba(131, 186, 255, 0.35);
-  border-radius: 999px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: .16em;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35), inset 0 1px rgba(255, 255, 255, 0.1);
-  margin-bottom: 24px;
+.cosmic-home .hero-cascade {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(46px, 6.6vw, 104px);
+  font-weight: 800;
+  line-height: .98;
+  letter-spacing: -.05em;
+  text-shadow: 0 6px 40px #000000b3;
 }
 
-.hero-eyebrow-dot {
-  position: relative;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #4cddff;
-  box-shadow: 0 0 10px #4cddff;
-}
-
-.hero-eyebrow-dot::after {
-  content: '';
-  position: absolute;
-  inset: -2px;
-  border-radius: 50%;
-  border: 1px solid #4cddff;
-  opacity: .8;
-  animation: connect-pulse 2.2s var(--ease-out) infinite;
-}
-
-.cosmic-home .hero h1 {
-  font-size: clamp(32px, 4.3vw, 62px);
-  line-height: 1.1;
-  letter-spacing: -.038em;
-  text-shadow: 0 5px 36px #000c;
-  margin-bottom: 22px;
-}
-
-.hero-title-line {
+.hero-cascade-line {
   display: block;
+  width: fit-content;
   white-space: nowrap;
+  padding-left: calc(var(--line) * .9em);
+  color: #f6f9ff;
+  animation: hero-focus 1s var(--ease-out) both;
+  animation-delay: calc(120ms + var(--line) * 160ms);
 }
 
-.cosmic-home .hero-copy > p {
-  max-width: 480px;
-  color: #b7c7e2;
-  font-size: clamp(15.5px, 1.2vw, 18px);
-  line-height: 1.65;
-  margin-bottom: 0;
+.hero-cascade-line:nth-child(1) { color: #8ea6cc; }
+.hero-cascade-line:nth-child(2) { color: #c6d6ef; }
+
+@keyframes hero-focus {
+  from { opacity: 0; filter: blur(10px); transform: translate3d(-.25em, 0, 0); }
+  to { opacity: 1; filter: blur(0); transform: none; }
+}
+
+.cosmic-home .hero-lead {
+  max-width: 40ch;
+  margin: clamp(24px, 3.4vh, 36px) 0 0;
+  color: #c3d1e8;
+  font-size: clamp(16px, 1.25vw, 19px);
+  line-height: 1.6;
 }
 
 .cosmic-home .hero-actions {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  gap: 16px;
-  margin-top: 32px;
+  gap: 14px;
+  margin-top: clamp(24px, 3.6vh, 36px);
 }
 
-.cosmic-home .hero-tags {
+/* Lead and actions align with the third (most "in focus") headline line. */
+@media (min-width: 861px) {
+  .cosmic-home .hero-lead,
+  .cosmic-home .hero-actions {
+    margin-left: calc(2 * .9 * clamp(46px, 6.6vw, 104px));
+  }
+}
+
+.cosmic-home .hero-bottom {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-top: 0;
+  padding: 18px clamp(24px, 5vw, 80px);
+  border-top: 1px solid #8bc8ff24;
+  background: #03081780;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  letter-spacing: 0;
+}
+
+.hero-services {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 32px;
+  gap: 6px 28px;
+  margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.cosmic-home .hero-tags li {
-  padding: 6px 14px;
-  color: #a4bde4;
-  border: 1px solid rgba(131, 186, 255, 0.22);
-  background: rgba(7, 17, 37, 0.7);
-  border-radius: 999px;
-  font-size: 12.5px;
-  font-weight: 550;
-  backdrop-filter: blur(8px);
-  transition: border-color .25s, color .25s, transform .25s, background .25s;
-}
-
-.cosmic-home .hero-tags li:hover {
-  color: #e4f2ff;
-  border-color: rgba(94, 219, 255, 0.55);
-  background: rgba(14, 29, 61, 0.85);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(56, 191, 255, 0.2);
-}
-
-/* Hero Interactive Vibe Stage - Human-centric, uncrowded, elegant */
-.hero-right-stage {
-  position: absolute;
-  z-index: 2;
-  top: 50%;
-  right: clamp(24px, 4.5vw, 68px);
-  transform: translateY(-50%);
-  width: min(44%, 480px);
-  pointer-events: auto;
-}
-
-.hero-vibe-stage {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  transition: transform 0.15s ease-out;
-  transform-style: preserve-3d;
-}
-
-.vibe-aura {
-  position: absolute;
-  inset: -20%;
-  z-index: 0;
-  pointer-events: none;
-  filter: blur(50px);
-  opacity: 0.65;
-  transition: background 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-
-
-/* Pillars List */
-.vibe-pillars-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  width: 100%;
-  z-index: 1;
-}
-
-.vibe-pillar-pill {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  width: 100%;
-  padding: 11px 18px;
-  border-radius: 14px;
-  background: rgba(7, 16, 36, 0.72);
-  border: 1px solid rgba(131, 186, 255, 0.2);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  cursor: pointer;
-  text-align: left;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
-}
-
-.vibe-pillar-pill:hover {
-  background: rgba(11, 24, 53, 0.85);
-  border-color: rgba(131, 186, 255, 0.45);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-}
-
-.vibe-pillar-pill.is-active {
-  background: rgba(12, 28, 62, 0.92);
-  border-color: var(--pill-color, #38bdf8);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5), 0 0 20px var(--pill-glow);
-  transform: scale(1.02);
-}
-
-.pillar-icon-badge {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  flex-shrink: 0;
-  transition: transform 0.25s ease;
-}
-
-.vibe-pillar-pill:hover .pillar-icon-badge {
-  transform: scale(1.08);
-}
-
-.pillar-text-group {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  flex: 1;
-}
-
-.pillar-header-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.pillar-step {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: #7dd3fc;
-  opacity: 0.85;
-}
-
-.pillar-title {
-  font-size: 14px;
-  font-weight: 750;
-  letter-spacing: 0.06em;
-  color: #f1f5f9;
-}
-
-.pillar-tagline {
-  font-size: 12px;
-  color: #94a3b8;
-  font-weight: 450;
-}
-
-.pillar-active-pip {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  box-shadow: 0 0 10px currentColor;
-  animation: pip-pulse 2s infinite;
-}
-
-@keyframes pip-pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.6; transform: scale(0.8); }
-}
-
-/* Active Story Card */
-.vibe-story-card {
-  width: 100%;
-  margin-top: 12px;
-  padding: 13px 18px;
-  border-radius: 14px;
-  background: rgba(4, 11, 27, 0.78);
-  border: 1px solid rgba(131, 186, 255, 0.18);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  z-index: 1;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
-  animation: story-card-fade 0.35s ease-out;
-}
-
-@keyframes story-card-fade {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: none; }
-}
-
-.story-card-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 6px;
-}
-
-.story-card-badge {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  padding: 3px 9px;
-  border-radius: 999px;
-  border: 1px solid;
-  background: rgba(255, 255, 255, 0.04);
-}
-
-.story-live-status {
-  font-size: 11px;
-  color: #64748b;
-  font-weight: 500;
-}
-
-.story-card-desc {
-  margin: 0;
-  font-size: 13.5px;
-  line-height: 1.55;
-  color: #cbd5e1;
-}
-
-/* Responsive */
-@media (max-width: 1024px) {
-  .cosmic-home .hero {
-    display: flex;
-    flex-direction: column;
-    min-height: auto;
-    padding-bottom: 36px;
-  }
-  .cosmic-home .hero-copy {
-    max-width: 100%;
-    padding: 32px 24px 16px;
-  }
-  .hero-right-stage {
-    position: relative;
-    top: auto;
-    right: auto;
-    transform: none;
-    width: 100%;
-    max-width: 480px;
-    margin: 16px auto 32px;
-    padding: 0 20px;
-  }
-}
-
-
-.cosmic-home .hero-bottom {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  color: #8da4ca;
-  border-top: 1px solid rgba(139, 200, 255, 0.18);
-  padding: 16px 40px;
-  background: rgba(3, 8, 23, 0.45);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-}
-
-.hero-motto {
-  color: #b8cde8;
-  font-weight: 700;
-  letter-spacing: .18em;
-  font-size: 11px;
-}
-
-.motion-toggle-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #59d1ff;
-  box-shadow: 0 0 8px #59d1ff;
-  display: inline-block;
-  margin-right: 6px;
-}
-
-.cosmic-home .hero-bottom > span {
-  color: #b0c5e4;
-}
-
-.cosmic-home .hero-bottom > a,
-.cosmic-home .hero-about-link,
-.cosmic-home #motion-toggle {
+.hero-services a,
+.cosmic-home .hero-about-link {
   display: inline-flex;
   align-items: center;
-  color: #9bb3d6;
-  font-size: 13px;
+  min-height: 32px;
+  color: #a9bcdc;
+  font-size: 14px;
   font-weight: 600;
-  transition: color .25s, border-color .25s, background .25s;
+  letter-spacing: 0;
+  transition: color .2s;
 }
 
 .cosmic-home .hero-about-link {
   margin-left: auto;
+  color: #e6efff;
 }
 
-.cosmic-home #motion-toggle {
-  padding: 7px 14px;
-  border-radius: 999px;
-  border: 1px solid rgba(131, 186, 255, 0.25);
-  background: rgba(8, 17, 36, 0.7);
+.hero-services a:hover,
+.cosmic-home .hero-about-link:hover {
+  color: #7fdcff;
 }
 
-.cosmic-home .hero-bottom > a:hover,
-.cosmic-home .hero-about-link:hover,
-.cosmic-home #motion-toggle:hover {
-  color: #79d9ff;
-  border-color: rgba(89, 209, 255, 0.6);
-  background: rgba(14, 29, 61, 0.85);
+.hero-services a:focus-visible,
+.cosmic-home .hero-about-link:focus-visible {
+  outline: 2px solid #7fdcff;
+  outline-offset: 4px;
+  border-radius: 4px;
 }
 
 @media (min-width: 861px) and (max-height: 820px) {
   .cosmic-home .hero {
-    height: calc(100svh - var(--header-h) - 18px);
-    min-height: 590px;
-    padding-top: 8px;
+    min-height: max(560px, calc(100svh - var(--header-h) - 18px));
   }
-
-  .cosmic-home .hero-copy {
-    max-width: 820px;
-    padding: 32px clamp(36px, 4.4vw, 64px) 24px;
+  .cosmic-home .hero-cascade {
+    font-size: clamp(44px, 5.6vw, 84px);
   }
-
-  .cosmic-home .hero .eyebrow {
-    margin-bottom: 12px;
-  }
-
-  .cosmic-home .hero h1 {
-    margin-bottom: 14px;
-    font-size: clamp(44px, 5.2vw, 68px);
-  }
-
-  .cosmic-home .hero-copy > p {
-    font-size: 16px;
-    line-height: 1.5;
-    margin-bottom: 18px;
-  }
-
+  .cosmic-home .hero-lead,
   .cosmic-home .hero-actions {
-    margin-top: 16px;
-  }
-
-  .cosmic-home .hero-tags {
-    gap: 6px;
-    margin-top: 18px;
-  }
-
-  .cosmic-home .hero-tags li {
-    padding: 5px 11px;
-    font-size: 11px;
-  }
-
-  .cosmic-home .hero-bottom {
-    padding: 12px 32px;
+    margin-left: calc(2 * .9 * clamp(44px, 5.6vw, 84px));
   }
 }
+
+@media (max-width: 860px) {
+  .cosmic-home .hero {
+    min-height: auto;
+    border-radius: 18px;
+  }
+  .cosmic-home .hero-bg-animated {
+    background-position: 78% 54%;
+  }
+  .cosmic-home .hero::after {
+    background:
+      linear-gradient(180deg, #03081740 0%, #030817b3 45%, #030817f2 100%),
+      linear-gradient(90deg, #030817b3, #03081700 80%);
+  }
+  .cosmic-home .hero-copy {
+    padding: clamp(96px, 24vw, 180px) 20px 28px;
+  }
+  .cosmic-home .hero-cascade {
+    font-size: clamp(36px, 9.4vw, 64px);
+  }
+  .hero-cascade-line {
+    padding-left: calc(var(--line) * .5em);
+  }
+  .cosmic-home .hero-lead,
+  .cosmic-home .hero-actions {
+    margin-left: 0;
+  }
+  .cosmic-home .hero-lead {
+    font-size: 16px;
+  }
+  .cosmic-home .hero-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 16px 20px 18px;
+  }
+  .hero-services {
+    gap: 0 24px;
+  }
+  .hero-services a,
+  .cosmic-home .hero-about-link {
+    min-height: 40px;
+    font-size: 13.5px;
+  }
+  .cosmic-home .hero-about-link {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-services {
+    flex-direction: column;
+  }
+  .cosmic-home .hero-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .cosmic-home .hero-actions .button {
+    width: 100%;
+    min-height: 48px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-cascade-line { animation: none; }
+}
+body.motion-paused .hero-cascade-line { animation: none; }
 
 /* Sticky, scroll-scrubbed 240-frame film. */
 .cosmic-home .cinematic-story {
@@ -1199,8 +963,8 @@ body.cosmic-site .text-link:hover {
 
 .cosmic-home .story-video-fallback {
   background:
-    linear-gradient(90deg, #020713f2 0%, #020713d9 29%, #02071364 53%, #02071308 100%),
-    linear-gradient(0deg, #0207137a, transparent 35%),
+    linear-gradient(90deg, #020713f5 0%, #020713e0 30%, #02071378 56%, #0207130a 100%),
+    linear-gradient(0deg, #02071399, transparent 38%),
     radial-gradient(ellipse at 84% 28%, #198df533, transparent 38%);
 }
 
@@ -1212,7 +976,18 @@ body.cosmic-site .text-link:hover {
   justify-content: center;
   width: min(54%, 700px);
   padding: clamp(26px, 5vw, 80px) 0 96px;
+  isolation: isolate;
   animation: story-copy-in .7s var(--ease-out) both;
+}
+
+/* Soft scrim behind just the text block, so copy stays legible over bright frames. */
+.cosmic-home .story-copy::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 16% -14% 12% -10%;
+  background: radial-gradient(ellipse 60% 55% at 40% 50%, #020713c4 0%, #0207138f 48%, transparent 100%);
+  pointer-events: none;
 }
 
 @keyframes story-copy-in {
@@ -1225,8 +1000,8 @@ body.cosmic-site .text-link:hover {
   align-items: center;
   gap: 10px;
   margin-bottom: clamp(18px, 2.5vh, 28px);
-  color: #7ddcff;
-  font-size: 11px;
+  color: #a6ecff;
+  font-size: 12px;
   font-weight: 750;
   letter-spacing: .17em;
   line-height: 1.5;
@@ -1238,9 +1013,9 @@ body.cosmic-site .text-link:hover {
   padding: 4px 10px;
   border-radius: 999px;
   background: rgba(89, 209, 255, 0.14);
-  border: 1px solid rgba(89, 209, 255, 0.4);
-  color: #7ee2ff;
-  font-size: 10px;
+  border: 1px solid rgba(89, 209, 255, 0.55);
+  color: #e6f9ff;
+  font-size: 11px;
   font-weight: 750;
   letter-spacing: .14em;
   box-shadow: 0 0 12px rgba(89, 209, 255, 0.2);
@@ -1248,6 +1023,10 @@ body.cosmic-site .text-link:hover {
 
 .cosmic-home .story-divider {
   color: #b27dff;
+}
+
+.story-kicker-label {
+  white-space: nowrap;
 }
 
 .cosmic-home .story-copy h2 {
@@ -1258,37 +1037,42 @@ body.cosmic-site .text-link:hover {
   font-weight: 750;
   letter-spacing: -.045em;
   text-wrap: balance;
+  color: #fff;
+  text-shadow: 0 2px 28px #000000b3, 0 1px 3px #00000080;
 }
 
 .cosmic-home .story-copy p {
   max-width: 38ch;
   margin: 20px 0 0;
-  color: #b1c2df;
+  color: #d4def0;
   font-size: clamp(16px, 1.35vw, 19px);
   line-height: 1.65;
+  text-shadow: 0 1px 14px #000000cc;
 }
 
 .story-chapters {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-top: 26px;
+  margin: 30px 0 0;
+  padding: 0;
+  list-style: none;
 }
 
-.story-chapters span {
-  width: 20px;
-  height: 3px;
+.story-chapters li {
+  width: 24px;
+  height: 4px;
   border-radius: 99px;
-  background: rgba(131, 186, 255, 0.2);
+  background: rgba(131, 186, 255, 0.28);
   transition: width .35s var(--ease-out), background .35s, box-shadow .35s;
 }
 
-.story-chapters span.is-past {
-  background: rgba(89, 209, 255, 0.6);
+.story-chapters li.is-past {
+  background: rgba(89, 209, 255, 0.75);
 }
 
-.story-chapters span.is-current {
-  width: 36px;
+.story-chapters li.is-current {
+  width: 52px;
   background: linear-gradient(90deg, #52d8ff, #b07bff);
   box-shadow: 0 0 12px rgba(82, 216, 255, 0.7);
 }
@@ -1357,16 +1141,35 @@ body.cosmic-site .text-link:hover {
   bottom: clamp(24px, 4vw, 58px);
   display: flex;
   align-items: center;
-  gap: 10px;
-  color: #a3bce0;
+  gap: 12px;
+  color: #b9cce8;
   font-size: 10px;
   letter-spacing: .14em;
+  font-variant-numeric: tabular-nums;
 }
 
-.story-frame-count i {
-  width: 46px;
-  height: 1px;
+.story-frame-step {
+  color: #fff;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.story-progress-track {
+  position: relative;
+  width: clamp(80px, 9vw, 140px);
+  height: 2px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: #83baff33;
+}
+
+/* Scaled from JS (transform only), so the bar costs no layout while scrolling. */
+.story-progress-track i {
+  position: absolute;
+  inset: 0;
   background: linear-gradient(90deg, #53d9ff, #a66dff);
+  transform: scaleX(0);
+  transform-origin: left center;
 }
 
 /* Services, Approach, Work, Why Us — compact, balanced section rhythm */
@@ -2203,25 +2006,6 @@ body.cosmic-site .text-link:hover {
 
 /* Final call to action: styles live in the "Connect" block at the end of this file */
 
-@media (max-width: 1080px) {
-  .cosmic-home .hero {
-    min-height: auto;
-    padding-bottom: 24px;
-    display: flex;
-    flex-direction: column;
-  }
-  .hero-terminal-stage {
-    position: relative;
-    top: auto;
-    right: auto;
-    transform: none;
-    width: 100%;
-    max-width: 610px;
-    margin: 10px auto 30px;
-    padding: 0 20px;
-  }
-}
-
 @media (max-width: 1000px) {
   .cosmic-home .services-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2457,72 +2241,6 @@ body.cosmic-site .text-link:hover {
 }
 
 @media (max-width: 640px) {
-  .cosmic-home .hero {
-    min-height: auto;
-    justify-content: flex-start;
-    border-radius: 18px;
-  }
-  .cosmic-home .hero-copy {
-    z-index: 3;
-    padding: 32px 18px 20px;
-  }
-  .cosmic-home .hero .eyebrow {
-    font-size: 9.5px;
-    padding: 5px 12px;
-  }
-  .cosmic-home .hero h1 {
-    font-size: clamp(28px, 8.5vw, 42px);
-    line-height: 1.15;
-  }
-  .hero-title-line {
-    white-space: normal;
-  }
-  .cosmic-home .hero-actions {
-    flex-direction: column;
-    width: 100%;
-    gap: 10px;
-  }
-  .cosmic-home .hero-actions .button {
-    width: 100%;
-    justify-content: center;
-    min-height: 46px;
-  }
-  .hero-right-stage {
-    width: 100%;
-    padding: 0 16px;
-    margin: 14px 0 24px;
-  }
-  .vibe-pillar-pill {
-    padding: 10px 14px;
-    gap: 10px;
-  }
-  .pillar-icon-badge {
-    width: 32px;
-    height: 32px;
-  }
-  .pillar-title {
-    font-size: 13px;
-  }
-  .pillar-tagline {
-    font-size: 11px;
-  }
-  .cosmic-home .hero::after {
-    background:
-      linear-gradient(90deg, #030817ed, #0308179c 55%, #03081730),
-      linear-gradient(0deg, #030817 0%, #03081735 55%, transparent 100%);
-  }
-  .cosmic-home .hero-bottom {
-    flex-wrap: wrap;
-    gap: 12px;
-    padding: 14px 20px;
-  }
-  .hero-motto {
-    order: 3;
-    width: 100%;
-    justify-content: center;
-    padding-top: 6px;
-    border-top: 1px solid rgba(139, 200, 255, 0.12);
-  }
   .cosmic-home .work-card-actions {
     width: 100%;
     justify-content: space-between;
@@ -2572,20 +2290,6 @@ body.cosmic-site .text-link:hover {
     font-size: 12px;
   }
 
-  .cosmic-home .hero-actions {
-    flex-wrap: wrap;
-  }
-  .cosmic-home .hero-actions .button {
-    flex: 0 1 auto;
-    padding-inline: 16px;
-    font-size: 13px;
-  }
-  .cosmic-home .hero-tags {
-    max-width: 290px;
-  }
-  .cosmic-home .hero-bottom {
-    padding-inline: 22px;
-  }
   .cosmic-home .cinematic-story {
     min-height: 320vh;
     margin-top: 12px;
@@ -2595,12 +2299,12 @@ body.cosmic-site .text-link:hover {
     border-radius: 14px;
   }
   .cosmic-home .story-canvas {
-    opacity: .66;
+    opacity: .72;
   }
   .cosmic-home .story-video-fallback {
     background:
-      linear-gradient(90deg, #020713dc, #02071380 68%, #02071329),
-      linear-gradient(0deg, #020713bb, transparent 52%);
+      linear-gradient(90deg, #020713d6, #02071373 70%, #02071320),
+      linear-gradient(0deg, #020713e0 0%, #020713a0 30%, transparent 58%);
   }
   .cosmic-home .story-copy {
     left: 0;
@@ -2609,10 +2313,29 @@ body.cosmic-site .text-link:hover {
     width: 100%;
     padding: 20px 25px 112px;
   }
+  .cosmic-home .story-copy::before {
+    inset: 18% 0 16% 0;
+    background: radial-gradient(ellipse 85% 60% at 35% 50%, #020713d1 0%, #0207139e 50%, transparent 100%);
+  }
   .cosmic-home .story-kicker {
-    max-width: 31ch;
+    max-width: 34ch;
+    flex-wrap: wrap;
+    gap: 8px;
     margin-bottom: 16px;
-    font-size: 9px;
+    font-size: 10px;
+  }
+  .story-kicker-badge {
+    font-size: 10px;
+  }
+  .story-chapters {
+    margin-top: 22px;
+    gap: 6px;
+  }
+  .story-chapters li {
+    width: 18px;
+  }
+  .story-chapters li.is-current {
+    width: 40px;
   }
   .cosmic-home .story-copy h2 {
     max-width: 12ch;
@@ -2630,6 +2353,12 @@ body.cosmic-site .text-link:hover {
   .story-frame-count {
     right: 20px;
     bottom: 20px;
+  }
+  .story-frame-num {
+    display: none;
+  }
+  .story-progress-track {
+    width: 64px;
   }
   .cosmic-home .services-grid {
     grid-template-columns: 1fr;
