@@ -294,13 +294,6 @@ body.about-cosmic-site .about h2 {
   border-radius: 999px;
 }
 
-.about-card-actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 14px;
-}
-
 /* About page: 03 / Core Values & Operating Principles */
 .values-section-heading {
   margin-bottom: 34px;
@@ -753,16 +746,7 @@ body.about-cosmic-site .about h2 {
 
 /* Team */
 .avatar { display: grid; place-items: center; width: 88px; height: 88px; margin: 0 auto; object-fit: cover; font-family: var(--font-display); font-size: 26px; font-weight: 800; color: #ffffff; background: linear-gradient(135deg, #1d5ce6, #0b9ae0); border: 4px solid #ffffff; border-radius: 50%; box-shadow: 0 10px 24px #1d5ce633; }
-body.team-page {
-  color-scheme: dark;
-  color: #f4f7ff;
-  background-color: #020817;
-  background-image: url('/team-page-background.png');
-  background-position: center;
-  background-size: cover;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-}
+/* Team, Domains and 404 share the clean dark backdrop in cosmic-home.css (body.dark-site). */
 body.team-page .page-hero--team,
 body.team-page .team-join-section { background: transparent; }
 body.team-page .page-hero--team .page-hero-bg::before,
@@ -778,63 +762,12 @@ body.team-page .page-hero--team .eyebrow {
   border-color: #83baff35;
   box-shadow: 0 8px 24px #0003;
 }
-body.team-page .button-primary,
-body.domains-page .button-primary,
-body.about-cosmic-site .button-primary {
-  color: #03111f;
-  background: linear-gradient(110deg, #4cddff, #438eff 62%, #9261ff);
-  box-shadow: 0 8px 28px #147de85c, inset 0 1px #ffffff82;
-}
-body.team-page .button-primary:hover,
-body.domains-page .button-primary:hover,
-body.about-cosmic-site .button-primary:hover {
-  color: #020a15;
-  background: linear-gradient(110deg, #79e9ff, #69a8ff 62%, #ae7bff);
-  box-shadow: 0 12px 36px #268fff80, inset 0 1px #ffffffb0;
-}
-body.team-page .button-secondary,
-body.domains-page .button-secondary,
-body.about-cosmic-site .button-secondary {
-  color: #eef5ff;
-  background: #081125b8;
-  border-color: #98c9ff54;
-  box-shadow: inset 0 1px #ffffff14;
-  backdrop-filter: blur(12px);
-}
-body.team-page .button-secondary:hover,
-body.domains-page .button-secondary:hover,
-body.about-cosmic-site .button-secondary:hover {
-  color: #fff;
-  border-color: #59cfff;
-  background: #10213edb;
-}
-
-body.domains-page {
-  color-scheme: dark;
-  color: #f5f8ff;
-  background-color: #020817;
-  background-image: none;
-}
+/* Domains: the artwork drifts slightly against the pointer (vars set in Domains.jsx). */
 body.domains-page::before {
-  content: '';
-  position: fixed;
-  inset: -36px;
-  z-index: 0;
-  pointer-events: none;
-  background-image: url('/domains-page-background.png');
-  background-position: center;
-  background-size: cover;
-  transform: perspective(1200px)
-    translate3d(var(--domains-parallax-x, 0px), var(--domains-parallax-y, 0px), 0)
-    scale(1.08)
-    rotateX(var(--domains-tilt-x, 0deg))
-    rotateY(var(--domains-tilt-y, 0deg));
-  transition: transform 180ms ease-out;
+  inset: -48px;
+  transform: translate3d(var(--domains-parallax-x, 0px), var(--domains-parallax-y, 0px), 0) scale(1.04);
+  transition: transform 220ms ease-out;
   will-change: transform;
-}
-body.domains-page > #root {
-  position: relative;
-  z-index: 1;
 }
 body.domains-page .page-hero--domains {
   background: transparent;
@@ -842,12 +775,10 @@ body.domains-page .page-hero--domains {
 }
 body.domains-page .page-hero--domains .page-hero-copy {
   padding: clamp(24px, 3.5vw, 42px);
-  border: 1px solid #83baff38;
-  border-radius: 26px;
-  background:
-    radial-gradient(ellipse at 100% 0%, #1c78d429, transparent 55%),
-    linear-gradient(145deg, #071226cc, #050b18d9);
-  box-shadow: 0 24px 65px #0006, inset 0 1px #ffffff14;
+  border: 1px solid var(--line-strong);
+  border-radius: 20px;
+  background: #060d1cc7;
+  box-shadow: 0 24px 65px #0006, inset 0 1px #ffffff0a;
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
 }
@@ -941,17 +872,11 @@ body.domains-page .service-card .service-index {
 
 /* 404 Page */
 body.not-found-page {
-  color-scheme: dark;
-  color: #f4f7ff;
-  background-color: #020817;
-  background-image:
-    radial-gradient(ellipse at 50% 30%, #153c7a33, transparent 55%),
-    radial-gradient(ellipse at 80% 70%, #5d259428, transparent 50%),
-    linear-gradient(180deg, #020817, #040d21);
   min-height: 100vh;
 }
 
 body.not-found-page .page-hero {
+  background: transparent;
   border-bottom: 0;
   padding-block: clamp(80px, 14vw, 160px);
   text-align: center;

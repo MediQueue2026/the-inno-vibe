@@ -81,7 +81,7 @@ export default function SystemsShowcase() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <span>Visit Live System</span>
+                <span>{project.previewLabel ?? 'Open'}</span>
                 <span aria-hidden="true">↗</span>
               </a>
             )}
@@ -90,7 +90,7 @@ export default function SystemsShowcase() {
           <p className="showcase-lead">{project.description}</p>
           {project.liveUrl && (
             <div className="showcase-live-callout">
-              <span className="live-callout-label">Live system preview:</span>
+              <span className="live-callout-label">{project.status === 'Testing' ? 'Public test build:' : 'Working preview:'}</span>
               <a
                 className="showcase-live-link"
                 href={project.liveUrl}

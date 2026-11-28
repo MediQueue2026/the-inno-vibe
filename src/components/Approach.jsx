@@ -47,7 +47,7 @@ export default function Approach({ number = '03' }) {
     <section className="approach section-wrap" id="approach" ref={sectionRef}>
       <span className="eyebrow"><span className="section-number">{number} /</span> HOW WE BUILD</span>
       <Reveal className="approach-heading">
-        <h2>Think. Build. Vibe<span className="cyan">.</span></h2>
+        <h2>From idea to launch, in six steps<span className="cyan">.</span></h2>
         <p>A streamlined journey from initial concept to launch-ready systems.</p>
       </Reveal>
       <ol className="process-track" ref={trackRef} aria-label="Our six-step process">

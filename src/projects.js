@@ -1,3 +1,11 @@
+// Each project also carries trust-facing fields used on the home page:
+//   audience     who it is for (plain language)
+//   stage        { label, note } — an honest, plain statement of where it stands
+//   previewLabel button text for liveUrl; say "test build"/"preview" until it has launched
+//   outcome      null until there is a REAL, checkable result. When a project launches,
+//                add e.g. { value: '-35%', label: 'average waiting time', context: 'Pilot at <clinic>, 3 months',
+//                quote: '…', attribution: 'Name, Role, Organisation' } — the card then shows the
+//                outcome instead of the stage line. Never fill this with estimates or placeholders.
 export const projects = [
   {
     id: 'mediqueue',
@@ -6,6 +14,10 @@ export const projects = [
     iconClass: 'medical-icon',
     status: 'Testing',
     liveUrl: 'https://mediqueue.theinnovibe.com/',
+    previewLabel: 'Open the test build',
+    audience: 'Medical centres, their patients and clinic staff',
+    stage: { label: 'In testing', note: 'A public test build is running, so you can try it today.' },
+    outcome: null,
     domain: 'Healthcare',
     domainSummary: 'Bringing order to clinical queues and clarity to patient journeys.',
     category: 'HEALTHCARE TECHNOLOGY',
@@ -26,12 +38,16 @@ export const projects = [
     iconClass: 'home-icon',
     status: 'In development',
     liveUrl: 'https://sahakara.theinnovibe.com/',
+    previewLabel: 'Open the preview',
+    audience: 'Busy families and the household helpers they work with',
+    stage: { label: 'In development', note: 'A working preview is online while the core features are built.' },
+    outcome: null,
     domain: 'Home & everyday living',
     domainSummary: 'Making household help simple, structured, and easy to coordinate.',
     category: 'HOME & EVERYDAY LIVING',
     tagline: 'A LITTLE HELP. A LOT OF HARMONY.',
     summary: 'Streamlined household coordination and help management in one place.',
-    description: 'Simplifies scheduling, task delegation, and daily household help management so homes run effortlessly.',
+    description: 'Simplifies scheduling, task delegation, and daily household help management so homes run more smoothly.',
     challenge: 'Coordinating domestic help and recurring chores often creates daily miscommunication.',
     focus: [
       'Daily chore schedules & checklists',
@@ -45,6 +61,9 @@ export const projects = [
     icon: '⚗\uFE0E',
     iconClass: 'lab-icon',
     status: 'Requirement analysis',
+    audience: 'A/L chemistry students with limited access to a physical lab',
+    stage: { label: 'In research', note: 'We are mapping experiments to the A/L syllabus before writing code.' },
+    outcome: null,
     domain: 'Education',
     domainSummary: 'Interactive practical chemistry simulations for students.',
     category: 'EDUCATION TECHNOLOGY',

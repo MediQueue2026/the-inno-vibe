@@ -61,9 +61,9 @@ function Module({ module, pointer }) {
     <group ref={group} position={module.position}>
       <RoundedBox args={module.size} radius={0.055} smoothness={5} castShadow receiveShadow>
         <meshPhysicalMaterial
-          color={module.core ? '#10243A' : '#0B1C32'}
+          color={module.core ? '#16304D' : '#112540'}
           emissive={module.core ? '#0A2638' : '#071426'}
-          emissiveIntensity={module.core ? 0.2 : 0.12}
+          emissiveIntensity={module.core ? 0.26 : 0.16}
           metalness={0.48}
           roughness={0.24}
           clearcoat={1}
@@ -512,38 +512,44 @@ function AnimatedModel({ type, pointer }) {
       <group ref={group} scale={type === 'web' ? 0.96 : type === 'ai' ? 0.86 : 0.92}>
         <ServiceArt type={type} pointer={pointer} />
       </group>
-      <directionalLight position={[3, 4, 4]} color="#F5F7FF" intensity={1.7} />
+      <directionalLight position={[3, 4, 4]} color="#F5F7FF" intensity={1.9} />
+      {/* Rim lights from behind separate the dark bodies from the plain page background. */}
+      <directionalLight position={[-2.2, 2.4, -3]} color="#45D9FF" intensity={2.4} />
+      <directionalLight position={[2.6, 0.8, -2.6]} color="#8B5CF6" intensity={1.6} />
       <pointLight ref={keyLight} position={[1.1, 1.2, 1.8]} color="#45D9FF" intensity={8.5} distance={6} decay={2} />
       <pointLight ref={fillLight} position={[-1.7, -0.4, 0.5]} color="#8B5CF6" intensity={3} distance={5} decay={2} />
     </>
   );
 }
 
-export default function ServiceModel({ type, pointer }) {
+// `active` is false while the card is off screen: the canvas then keeps its last
+// frame instead of rendering every frame.
+// `zoom` moves the camera closer (>1) so a model can fill a larger tile.
+export default function ServiceModel({ type, pointer, active = true, zoom = 1 }) {
   const paused = useMotionPaused();
   const mobile = matchMedia('(max-width: 700px)').matches;
 
   return (
     <Canvas
       aria-hidden="true"
-      camera={{ position: [0.18, 0.16, 3.05], fov: 34 }}
+      camera={{ position: [0.18, 0.16, 3.05 / zoom], fov: 34 }}
       dpr={mobile ? 1 : [1, 1.25]}
-      frameloop={paused ? 'demand' : 'always'}
+      frameloop={paused || !active ? 'demand' : 'always'}
       gl={{
         alpha: true,
         antialias: !mobile,
         powerPreference: 'high-performance',
         toneMapping: ACESFilmicToneMapping,
-        toneMappingExposure: 1.05,
+        toneMappingExposure: 1.18,
         outputColorSpace: SRGBColorSpace
       }}
     >
-      <ambientLight intensity={0.62} color="#94A3B8" />
-      <hemisphereLight args={['#2878FF', '#050D1A', 0.8]} />
+      <ambientLight intensity={0.78} color="#A5B4CF" />
+      <hemisphereLight args={['#2878FF', '#050D1A', 0.95]} />
       <Environment resolution={128}>
-        <Lightformer form="rect" intensity={1.1} color="#F5F7FF" position={[0, 3, 2]} scale={[4, 1.4, 1]} />
-        <Lightformer form="rect" intensity={1.45} color="#45D9FF" position={[-3, 0.7, 1]} scale={[1.4, 3, 1]} />
-        <Lightformer form="rect" intensity={0.7} color="#8B5CF6" position={[3, -0.4, -1]} scale={[1.2, 2.5, 1]} />
+        <Lightformer form="rect" intensity={1.4} color="#F5F7FF" position={[0, 3, 2]} scale={[4, 1.4, 1]} />
+        <Lightformer form="rect" intensity={1.8} color="#45D9FF" position={[-3, 0.7, 1]} scale={[1.4, 3, 1]} />
+        <Lightformer form="rect" intensity={1.05} color="#8B5CF6" position={[3, -0.4, -1]} scale={[1.2, 2.5, 1]} />
       </Environment>
       <AnimatedModel type={type} pointer={pointer} />
     </Canvas>

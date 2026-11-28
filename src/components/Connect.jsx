@@ -1,6 +1,9 @@
 import { Reveal } from '../hooks/useReveal.jsx';
 
 const EMAIL = 'theinnovibe@gmail.com';
+// A promise shown next to the call to action. Only change it to something the team
+// can reliably keep: a missed promise costs more trust than no promise.
+const RESPONSE_TIME = '1 business day';
 
 const steps = [
   { title: 'Share the vision', text: 'Tell us the problem you want to solve and who it is for.' },
@@ -33,6 +36,9 @@ export default function Connect() {
               Start a Project <span aria-hidden="true">&rarr;</span>
             </a>
           </div>
+          <ul className="connect-assurances" aria-label="What happens after you get in touch">
+            <li><span className="connect-assurance-dot" aria-hidden="true"></span><span>We reply within <strong>{RESPONSE_TIME}</strong></span></li>
+          </ul>
         </div>
 
         <ol className="connect-steps" aria-label="How we work together">

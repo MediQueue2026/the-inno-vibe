@@ -3,19 +3,26 @@ import { finePointer } from '../motion.js';
 
 // Builds the rotating light bulb inside `host`. Returns { sync, dispose }.
 export function createIdeaScene(host, { isPaused, onReadyChange }) {
-  const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: 'low-power' });
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 1.75));
+  const compact = matchMedia('(max-width: 700px)').matches;
+  const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: !compact, powerPreference: 'low-power' });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, compact ? 1.5 : 1.75));
   renderer.setClearColor(0xffffff, 0);
   host.appendChild(renderer.domElement);
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(36, 1, .1, 60);
-  camera.position.set(0, .25, 8.8);
-  scene.add(new THREE.HemisphereLight(0xffffff, 0xb8cdf5, 2.6));
-  const accentLight = new THREE.PointLight(0x2f7cf2, 30);
+  camera.position.set(0, .2, 7.4);
+  // Tuned for the dark site: a cool sky/violet ground, cyan key, violet fill, and a rim
+  // from behind so the silhouette separates from the plain backdrop.
+  scene.add(new THREE.HemisphereLight(0xcfe6ff, 0x1a1035, 1.5));
+  const keyLight = new THREE.DirectionalLight(0xf2f7ff, 1.1);
+  keyLight.position.set(2, 4, 5);
+  const rimLight = new THREE.DirectionalLight(0x45d9ff, 2.4);
+  rimLight.position.set(-3, 2.5, -4);
+  const accentLight = new THREE.PointLight(0x38bfff, 34);
   accentLight.position.set(-3, 2, 3);
-  const violetLight = new THREE.PointLight(0x0b9ae0, 26);
+  const violetLight = new THREE.PointLight(0x8b5cf6, 30);
   violetLight.position.set(3, 1, 2);
-  scene.add(accentLight, violetLight);
+  scene.add(keyLight, rimLight, accentLight, violetLight);
   const idea = new THREE.Group();
   idea.rotation.z = -.14;
   scene.add(idea);
@@ -25,17 +32,21 @@ export function createIdeaScene(host, { isPaused, onReadyChange }) {
     [0, 1.8], [.43, 1.75], [.84, 1.5], [1.06, 1.15], [1.13, .72],
     [1.04, .28], [.8, -.1], [.53, -.49], [.43, -.78], [.43, -.95]
   ].map(([x, y]) => new THREE.Vector2(x, y));
-  const glass = new THREE.MeshPhysicalMaterial({ color: 0x5c93f5, metalness: .1, roughness: .12, transparent: true, opacity: .2, side: THREE.DoubleSide, depthWrite: false, clearcoat: 1 });
+  const glass = new THREE.MeshPhysicalMaterial({ color: 0x7fd8ff, emissive: 0x0b2a4a, emissiveIntensity: .5, metalness: .1, roughness: .12, transparent: true, opacity: .18, side: THREE.DoubleSide, depthWrite: false, clearcoat: 1 });
   idea.add(new THREE.Mesh(new THREE.LatheGeometry(profile, 48), glass));
-  idea.add(new THREE.LineSegments(new THREE.WireframeGeometry(new THREE.LatheGeometry(profile, 16)), new THREE.LineBasicMaterial({ color: 0x1d5ce6, transparent: true, opacity: .32 })));
-  const filamentMaterial = new THREE.MeshStandardMaterial({ color: 0x1d5ce6, emissive: 0x2f7cf2, emissiveIntensity: 1.2, roughness: .4 });
+  idea.add(new THREE.LineSegments(new THREE.WireframeGeometry(new THREE.LatheGeometry(profile, 16)), new THREE.LineBasicMaterial({ color: 0x45d9ff, transparent: true, opacity: .34 })));
+  const filamentMaterial = new THREE.MeshStandardMaterial({ color: 0x45d9ff, emissive: 0x45d9ff, emissiveIntensity: 1.6, roughness: .4 });
   const filamentPoints = [];
   for (let i = 0; i <= 100; i++) {
     const t = i / 100;
     filamentPoints.push(new THREE.Vector3(Math.sin(t * Math.PI * 6) * .28, -.68 + t * 1.65, Math.cos(t * Math.PI * 6) * .28));
   }
-  idea.add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(filamentPoints), 100, .018, 6, false), filamentMaterial));
-  const metal = new THREE.MeshStandardMaterial({ color: 0x8fa6d4, metalness: .7, roughness: .28 });
+  idea.add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(filamentPoints), 100, .022, 6, false), filamentMaterial));
+  // The filament lights the glass and base from inside.
+  const filamentGlow = new THREE.PointLight(0x45d9ff, 7, 4.5);
+  filamentGlow.position.y = .2;
+  idea.add(filamentGlow);
+  const metal = new THREE.MeshStandardMaterial({ color: 0xa9bde0, metalness: .5, roughness: .3 });
   const base = new THREE.Mesh(new THREE.CylinderGeometry(.44, .33, .6, 40), metal);
   base.position.y = -1.22;
   idea.add(base);
@@ -52,14 +63,17 @@ export function createIdeaScene(host, { isPaused, onReadyChange }) {
 
   const halo = new THREE.Group();
   halo.rotation.set(.65, .3, -.3);
-  halo.add(new THREE.Mesh(new THREE.TorusGeometry(1.85, .008, 6, 100), new THREE.MeshBasicMaterial({ color: 0x1d5ce6, transparent: true, opacity: .25 })));
+  halo.add(new THREE.Mesh(new THREE.TorusGeometry(1.85, .008, 6, 100), new THREE.MeshBasicMaterial({ color: 0x45d9ff, transparent: true, opacity: .4 })));
+  const outerHalo = new THREE.Mesh(new THREE.TorusGeometry(2.25, .006, 6, 120), new THREE.MeshBasicMaterial({ color: 0x8b5cf6, transparent: true, opacity: .32 }));
+  outerHalo.rotation.set(.35, -.4, .5);
+  halo.add(outerHalo);
   scene.add(halo);
   const satellites = [];
-  const colors = [0x1d5ce6, 0x0b9ae0, 0x5c93f5];
+  const colors = [0x45d9ff, 0x8b5cf6, 0xc76bff];
   for (let i = 0; i < 13; i++) {
     const size = .055 + (i % 4) * .025;
     const geometry = i % 2 ? new THREE.OctahedronGeometry(size) : new THREE.IcosahedronGeometry(size, 0);
-    const mesh = new THREE.Mesh(geometry, new THREE.MeshStandardMaterial({ color: colors[i % 3], metalness: .45, roughness: .22 }));
+    const mesh = new THREE.Mesh(geometry, new THREE.MeshStandardMaterial({ color: colors[i % 3], emissive: colors[i % 3], emissiveIntensity: .35, metalness: .45, roughness: .22 }));
     const angle = i * 2.399;
     const radius = 1.65 + (i % 3) * .25;
     mesh.position.set(Math.cos(angle) * radius, Math.sin(angle) * radius, Math.sin(i * 1.6) * .7);
@@ -73,6 +87,10 @@ export function createIdeaScene(host, { isPaused, onReadyChange }) {
   let elapsed = 0;
   let lost = false;
   const pointer = { x: 0, y: 0 };
+  // Pointer tracking covers the whole hero, not just the canvas, so the bulb turns
+  // toward the cursor wherever it is in the section.
+  const pointerTarget = host.closest('section') ?? host;
+  const clamp = value => Math.max(-1, Math.min(1, value));
   function render(time = 0) {
     frame = 0;
     const paused = isPaused();
@@ -81,10 +99,14 @@ export function createIdeaScene(host, { isPaused, onReadyChange }) {
     if (!paused) {
       elapsed += dt;
       const ease = 1 - Math.exp(-dt * 4);
-      idea.rotation.y += (pointer.x * .4 + Math.sin(elapsed * .25) * .14 - idea.rotation.y) * ease;
+      // Scroll parallax: the bulb turns and rises a little as the hero scrolls away.
+      const scroll = Math.min(window.scrollY / Math.max(window.innerHeight, 1), 1);
+      idea.rotation.y += (pointer.x * .4 + Math.sin(elapsed * .25) * .14 + scroll * .9 - idea.rotation.y) * ease;
       idea.rotation.x += (-pointer.y * .15 - idea.rotation.x) * ease;
-      idea.position.y = Math.sin(elapsed * .85) * .075;
-      halo.rotation.y = .3 + Math.sin(elapsed * .18) * .22;
+      idea.position.y = Math.sin(elapsed * .85) * .075 + scroll * .5;
+      halo.rotation.y = .3 + Math.sin(elapsed * .18) * .22 + scroll * .4;
+      outerHalo.rotation.z = .5 + elapsed * .05;
+      filamentGlow.intensity = 6.5 + Math.sin(elapsed * 1.7) * 1.2;
       satellites.forEach(({ mesh, y, phase }) => {
         mesh.position.y = y + Math.sin(elapsed * .6 + phase) * .09;
         mesh.rotation.x = elapsed * .13 + phase;
@@ -118,8 +140,8 @@ export function createIdeaScene(host, { isPaused, onReadyChange }) {
   const onPointerMove = event => {
     if (isPaused() || !finePointer.matches) return;
     const rect = host.getBoundingClientRect();
-    pointer.x = (event.clientX - rect.left) / rect.width * 2 - 1;
-    pointer.y = (event.clientY - rect.top) / rect.height * 2 - 1;
+    pointer.x = clamp((event.clientX - rect.left) / rect.width * 2 - 1);
+    pointer.y = clamp((event.clientY - rect.top) / rect.height * 2 - 1);
   };
   const onPointerLeave = () => { pointer.x = 0; pointer.y = 0; };
   const onContextLost = event => {
@@ -136,8 +158,8 @@ export function createIdeaScene(host, { isPaused, onReadyChange }) {
     sync();
   };
   document.addEventListener('visibilitychange', sync);
-  host.addEventListener('pointermove', onPointerMove);
-  host.addEventListener('pointerleave', onPointerLeave);
+  pointerTarget.addEventListener('pointermove', onPointerMove);
+  pointerTarget.addEventListener('pointerleave', onPointerLeave);
   renderer.domElement.addEventListener('webglcontextlost', onContextLost);
   renderer.domElement.addEventListener('webglcontextrestored', onContextRestored);
   sync();
@@ -148,8 +170,8 @@ export function createIdeaScene(host, { isPaused, onReadyChange }) {
     resizeObserver.disconnect();
     visibilityObserver.disconnect();
     document.removeEventListener('visibilitychange', sync);
-    host.removeEventListener('pointermove', onPointerMove);
-    host.removeEventListener('pointerleave', onPointerLeave);
+    pointerTarget.removeEventListener('pointermove', onPointerMove);
+    pointerTarget.removeEventListener('pointerleave', onPointerLeave);
     scene.traverse(object => {
       object.geometry?.dispose();
       object.material?.dispose();

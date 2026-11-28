@@ -31,6 +31,12 @@ export default function Layout() {
     document.body.classList.toggle('motion-paused', paused);
   }, [paused]);
 
+  // Every route shares the dark theme and its clean backdrop (cosmic-home.css, "Shared dark system").
+  useEffect(() => {
+    document.body.classList.add('dark-site');
+    return () => document.body.classList.remove('dark-site');
+  }, []);
+
   useEffect(() => {
     document.body.classList.toggle('cosmic-site', pathname === '/');
     document.body.classList.toggle('about-cosmic-site', pathname === '/about');

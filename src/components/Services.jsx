@@ -22,6 +22,9 @@ if (typeof window !== 'undefined') {
 
 const ServiceModel = lazy(getServiceModel);
 
+// How close the camera sits to each model, so it fills its bento tile.
+const modelZoom = { software: 1.25, web: 1.12, ai: 1.15, systems: 1.06 };
+
 const icons = {
   software: <><circle cx="12" cy="12" r="3.2" /><path d="M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.5 5.5l1.7 1.7M16.8 16.8l1.7 1.7M5.5 18.5l1.7-1.7M16.8 7.2l1.7-1.7" /></>,
   web: <><rect x="2.5" y="4" width="15" height="12" rx="2" /><path d="M2.5 7.5h15" /><rect x="15" y="10" width="6.5" height="10" rx="1.5" /><path d="M6 12.5l-1.5 1.5L6 15.5M10 12.5l1.5 1.5L10 15.5" /></>,
@@ -62,21 +65,32 @@ function ServiceCard({ service, index, showModels }) {
   const modelBox = useRef(null);
   // Pre-trigger WebGL initialization early before card is fully visible
   const [inView, setInView] = useState(false);
+  // Whether the model is on screen right now; off screen it stops rendering frames.
+  const [onScreen, setOnScreen] = useState(false);
 
   useEffect(() => {
     if (!showModels) return undefined;
     const box = modelBox.current;
     if (!box) return undefined;
-    const observer = new IntersectionObserver(
+    const preload = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setInView(true);
+          preload.disconnect();
         }
       },
       { rootMargin: '600px 0px' }
     );
-    observer.observe(box);
-    return () => observer.disconnect();
+    const visibility = new IntersectionObserver(
+      ([entry]) => setOnScreen(entry.isIntersecting),
+      { rootMargin: '80px 0px' }
+    );
+    preload.observe(box);
+    visibility.observe(box);
+    return () => {
+      preload.disconnect();
+      visibility.disconnect();
+    };
   }, [showModels]);
 
   return (
@@ -99,12 +113,15 @@ function ServiceCard({ service, index, showModels }) {
                 </div>
               }
             >
-              <ServiceModel type={service.id} pointer={pointer} />
+              <ServiceModel type={service.id} pointer={pointer} active={onScreen} zoom={modelZoom[service.id]} />
             </Suspense>
           )}
         </div>
       )}
-      <span className="service-index">{String(index + 1).padStart(2, '0')} / CAPABILITY</span>
+      <span className="service-index">
+        <span>{String(index + 1).padStart(2, '0')} / CAPABILITY</span>
+        {showModels && <span className="service-index-tag" aria-hidden="true">3D · LIVE</span>}
+      </span>
       {!showModels && (
         <span className="service-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">{icons[service.id]}</svg>
