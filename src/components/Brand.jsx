@@ -1,5 +1,6 @@
 import { Link } from 'react-router';
-import icon from '../assets/theinnovibe-icon.png';
+// A 96px copy (12KB) of the 600KB source; the mark never renders above 44px.
+import icon from '../assets/theinnovibe-icon-96.png';
 
 export default function Brand({ size = 44, ...props }) {
   return (

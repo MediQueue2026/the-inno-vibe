@@ -80,7 +80,6 @@ export default function About() {
         title={<><AnimatedWords text="A technology startup" /><br /><span className="gradient-text"><AnimatedWords text="building for real life." start={3} /></span></>}
         actions={<>
           <Link className="button button-primary" to="/domains">See what we build <span aria-hidden="true">→</span></Link>
-          <Link className="button button-secondary" to="/team">Meet the team</Link>
         </>}
         jumps={[
           { href: '#who-we-are', label: 'Who we are' },
@@ -134,21 +133,13 @@ export default function About() {
             We’re TheInnoVibe — a technology studio creating software that simplifies everyday life.
           </p>
           <p className="about-body-text">
-            We combine human-centered design and resilient engineering across healthcare, home management, and education to build systems that work effortlessly.
+            We combine human-centered design and resilient engineering across healthcare, home management, and education to build systems that are genuinely easy to use.
           </p>
           <div className="about-domains-strip">
             <span className="about-domains-label">Focus spaces:</span>
             <span className="about-domain-pill">Healthcare</span>
             <span className="about-domain-pill">Everyday living</span>
             <span className="about-domain-pill">Education</span>
-          </div>
-          <div className="about-card-actions">
-            <Link className="button button-primary" to="/domains">
-              See where we work <span aria-hidden="true">→</span>
-            </Link>
-            <Link className="button button-secondary" to="/team">
-              Meet the team
-            </Link>
           </div>
         </Reveal>
       </section>

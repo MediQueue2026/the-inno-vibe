@@ -147,7 +147,7 @@ export default function Domains() {
         <span className="eyebrow"><span className="section-number">03 /</span> OUR SYSTEMS</span>
         <Reveal className="approach-heading">
           <h2>One purpose, three systems<span className="cyan">.</span></h2>
-          <p>Explore our active systems, current progress, and live deployments.</p>
+          <p>Where each system stands today, with public builds you can open.</p>
         </Reveal>
         <SystemsShowcase />
       </section>

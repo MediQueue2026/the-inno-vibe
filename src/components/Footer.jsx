@@ -37,9 +37,9 @@ export default function Footer() {
           </a>
         </div>
       </div>
+      <div className="footer-wordmark" aria-hidden="true">TheInnoVibe</div>
       <div className="section-wrap footer-bottom">
         <span>© {new Date().getFullYear()} TheInnoVibe. All rights reserved.</span>
-        <span className="footer-motto">Think Beyond. Build Better. Vibe Different.</span>
         <a href="#main" className="back-top" onClick={event => { event.preventDefault(); window.scrollTo({ top: 0 }); }}>Back to top <span aria-hidden="true">↑</span></a>
       </div>
     </footer>
